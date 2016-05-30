@@ -132,3 +132,7 @@ module.exports = class Base
     @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
 
     callback()
+
+# Local Variables:
+# coffee-tab-width: 2
+# End:
