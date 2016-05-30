@@ -679,6 +679,10 @@ module.exports = Utils =
   markdownComments: (segments, project, callback) ->
     try
       for segment, segmentIndex in segments
+        targetPath = segment.comments[0]
+        project.log.debug "targetPath: %s", targetPath
+        plainComments = segment.comments.join '\n'
+        plainComments += '\n\n'
         markdown = marked segment.comments.join '\n'
         headers  = []
 
@@ -700,6 +704,11 @@ module.exports = Utils =
         segment.markdownedComments = markdown
         # As well as the extracted headers to aid in outline building.
         segment.headers = headers
+        # As well as the plain comments
+        segment.plainComments = plainComments
+        # As well as the targetPath and a provisional pageTitle
+        segment.targetPath = targetPath
+        segment.pageTitle = targetPath
 
     catch error
       return callback error

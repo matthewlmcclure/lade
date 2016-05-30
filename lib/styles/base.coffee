@@ -72,47 +72,63 @@ module.exports = class Base
 
     throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
 
-    docPath = path.resolve @project.outPath, "#{fileInfo.targetPath}.html"
+    for segment in segments
+      docPath = path.resolve @project.outPath, "#{segment.targetPath}.md"
 
-    fsTools.mkdir path.dirname(docPath), '0755', (error) =>
-      if error
-        @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
-        return callback error
+      @log.debug "segment.targetPath: %s", segment.targetPath
+      @log.debug "Making directory %s", path.dirname(docPath)
 
-      for segment in segments
+      fsTools.mkdir path.dirname(docPath), '0755', (error) =>
+        if error
+          @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
+          return callback error
+
+        # TODO: This is in a callback whereas segment is bound outside
+        # the callback. Figure out how to ensure that the value used
+        # here is the one bound at the time fsTools.mkdir is called
+        # instead of at the time the callback is called.
+
         segment.markdownedComments = Utils.trimBlankLines segment.markdownedComments
         segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
         segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
 
-      templateContext =
-        project:     @project
-        segments:    segments
-        pageTitle:   fileInfo.pageTitle
-        sourcePath:  fileInfo.sourcePath
-        targetPath:  fileInfo.targetPath
-        projectPath: fileInfo.projectPath
+        templateContext =
+          project:     @project
+          segments:    [segment]
+          pageTitle:   segment.pageTitle
+          sourcePath:  fileInfo.sourcePath
+          targetPath:  segment.targetPath
+          projectPath: fileInfo.projectPath
 
-      # How many levels deep are we?
-      pathChunks = path.dirname(fileInfo.targetPath).split(/[\/\\]/)
-      if pathChunks.length == 1 && pathChunks[0] == '.'
-        templateContext.relativeRoot = ''
-      else
-        templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
+        # How many levels deep are we?
+        pathChunks = path.dirname(templateContext.targetPath).split(/[\/\\]/)
+        if pathChunks.length == 1 && pathChunks[0] == '.'
+          templateContext.relativeRoot = ''
+        else
+          templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
 
-      try
-        data = @templateFunc templateContext
+        try
+          data = @templateFunc templateContext
 
-      catch error
-        @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
-        return callback error
-
-      fs.writeFile docPath, data, 'utf-8', (error) =>
-        if error
-          @log.error 'Failed to write documentation file %s: %s', docPath, error.message
+        catch error
+          @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
+          # TODO: Consider continuing. The return statement dates from
+          # when it was assumed this function was rendering one output
+          # file.
           return callback error
 
-        @log.pass docPath
-        callback()
+        @log.debug 'Writing to docpath: %s, data: %s', docPath, data
+
+        fs.writeFile docPath, data, 'utf-8', (error) =>
+          if error
+            @log.error 'Failed to write documentation file %s: %s', docPath, error.message
+            # TODO: Consider continuing. The return statement dates from
+            # when it was assumed this function was rendering one output
+            # file.
+            return callback error
+
+      @log.pass docPath
+      callback()
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'

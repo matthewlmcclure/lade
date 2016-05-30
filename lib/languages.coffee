@@ -67,7 +67,7 @@ module.exports = LANGUAGES =
      *      * <= COMBINE THESE TWO CHARS => /
      *
      * (The the final comment-mark above has been TWEAKED to not raise an error)
-     ###
+    ###
     # - Variant 2:
     ### }
     Uses the the below defined syntax, without preceding `#` per line. This is
@@ -83,7 +83,7 @@ module.exports = LANGUAGES =
     # with `'#'`, because we add unmatched lines to the comments once we are
     # in a multi-line comment-block and until we left them …
     ###
-    #- Variant 4:
+    # - Variant 4:
     #   (This definition matches the format used by YUIDoc to parse CoffeeScript
     #   comments)
     multiLineComment  : [
