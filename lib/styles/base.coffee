@@ -84,11 +84,6 @@ module.exports = class Base
             @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
             return callback error
 
-          # TODO: This is in a callback whereas segment is bound outside
-          # the callback. Figure out how to ensure that the value used
-          # here is the one bound at the time fsTools.mkdir is called
-          # instead of at the time the callback is called.
-
           segment.markdownedComments = Utils.trimBlankLines segment.markdownedComments
           segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
           segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
