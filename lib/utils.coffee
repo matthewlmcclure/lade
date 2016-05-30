@@ -680,6 +680,7 @@ module.exports = Utils =
     try
       for segment, segmentIndex in segments
         targetPath = segment.comments[0]
+        segment.comments = segment.comments[1..]
         project.log.debug "targetPath: %s", targetPath
         plainComments = segment.comments.join '\n'
         plainComments += '\n\n'
