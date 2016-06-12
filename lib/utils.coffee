@@ -727,3 +727,7 @@ module.exports = Utils =
       furthestIndex = matcher.lastIndex
 
     result + string[furthestIndex...]
+
+# Local Variables:
+# coffee-tab-width: 2
+# End:
