@@ -39,7 +39,8 @@
     "showdown": "^0.3.1",
     "spate": "^0.1.0",
     "uglify-js": "^2.4.6",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "yamljs": "^0.2.7"
   },
   "devDependencies": {},
 

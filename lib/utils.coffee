@@ -6,6 +6,7 @@ TODO: should be migrated into `lib/utils`.
 
 childProcess = require 'child_process'
 path         = require 'path'
+YAML         = require 'yamljs'
 
 _        = require 'underscore'
 hljs     = require 'highlight.js'
@@ -679,8 +680,19 @@ module.exports = Utils =
   markdownComments: (segments, project, callback) ->
     try
       for segment, segmentIndex in segments
-        targetPath = segment.comments[0]
-        segment.comments = segment.comments[1..]
+        commentLineIndex = 1
+        if segment.comments[0] == "---"
+          while segment.comments[commentLineIndex] != "---"
+            commentLineIndex++
+            if commentLineIndex == segment.comments.length
+              throw new Error 'Missing trailing "---"'
+          frontMatterYaml = segment.comments[1...commentLineIndex].join '\n'
+          frontMatter = YAML.parse(frontMatterYaml)
+          targetPath = frontMatter.target
+          segment.comments = segment.comments[commentLineIndex+1..]
+        else
+          targetPath = segment.comments[0]
+          segment.comments = segment.comments[1..]
         project.log.debug "targetPath: %s", targetPath
         plainComments = segment.comments.join '\n'
         plainComments += '\n\n'
