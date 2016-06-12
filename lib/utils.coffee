@@ -459,7 +459,7 @@ module.exports = Utils =
               currSegment.code.push currSegment.foldMarker
             else
               currSegment.comments.push comment
-        
+
         else
           if options.allowEmptyLines
             currSegment.comments.push ''
@@ -690,38 +690,15 @@ module.exports = Utils =
           frontMatter = YAML.parse(frontMatterYaml)
           targetPath = frontMatter.target
           segment.comments = segment.comments[commentLineIndex+1..]
-        else
-          targetPath = segment.comments[0]
-          segment.comments = segment.comments[1..]
-        project.log.debug "targetPath: %s", targetPath
-        plainComments = segment.comments.join '\n'
-        plainComments += '\n\n'
-        markdown = marked segment.comments.join '\n'
-        headers  = []
+          project.log.debug "targetPath: %s", targetPath
+          plainComments = segment.comments.join '\n'
+          plainComments += '\n\n'
 
-        # showdown generates header ids by lowercasing & dropping non-word characters.  We'd like
-        # something a bit more readable.
-        markdown = @gsub markdown, /<h(\d) id="[^"]+">([^<]+)<\/h\d>/g, (match) =>
-          header =
-            level: parseInt match[1]
-            title: match[2]
-            slug:  @slugifyTitle match[2]
-
-          header.isFileHeader = true if header.level == 1 && segmentIndex == 0 && match.index == 0
-
-          headers.push header
-
-          "<h#{header.level} id=\"#{header.slug}\">#{header.title}</h#{header.level}>"
-
-        # We attach the rendered markdown to the comment
-        segment.markdownedComments = markdown
-        # As well as the extracted headers to aid in outline building.
-        segment.headers = headers
-        # As well as the plain comments
-        segment.plainComments = plainComments
-        # As well as the targetPath and a provisional pageTitle
-        segment.targetPath = targetPath
-        segment.pageTitle = targetPath
+          # Attach the plain comments
+          segment.plainComments = plainComments
+          # As well as the targetPath and the frontMatter
+          segment.targetPath = targetPath
+          segment.frontMatter = frontMatter
 
     catch error
       return callback error

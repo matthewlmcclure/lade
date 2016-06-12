@@ -112,26 +112,11 @@ module.exports = StyleHelpers =
 
     result
 
-  # It helps visually to separate headers that are not attached to other comments into their own
-  # segment.
+  # Pass through segments. This used to treat header only segments specially
+  # TODO: Rename function
   segmentizeSoloHeaders: (segments) ->
     results = []
     for segment in segments
-      headerOnly = segment.markdownedComments.match /^\s*<h\d[^>]*>[^<]*<\/h\d>\s*$/
-      if headerOnly and not segment.highlightedCode.match /^\s*$/
-        results.push
-          code:               []
-          comments:           segment.comments
-          highlightedCode:    ''
-          markdownedComments: segment.markdownedComments
-
-        results.push
-          code:               segment.code
-          comments:           []
-          highlightedCode:    segment.highlightedCode
-          markdownedComments: ''
-
-      else
-        results.push segment
+      results.push segment
 
     results

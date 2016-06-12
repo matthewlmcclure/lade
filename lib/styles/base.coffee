@@ -58,8 +58,6 @@ module.exports = class Base
               @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
               return callback error
 
-            @outline[fileInfo.targetPath] = StyleHelpers.outlineHeaders segments
-
             # We also prefer to split out solo headers
             segments = StyleHelpers.segmentizeSoloHeaders segments
 
@@ -73,58 +71,58 @@ module.exports = class Base
     throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
 
     for segment in segments
-      docPath = path.resolve @project.outPath, "#{segment.targetPath}.md"
+      if segment.targetPath != undefined
+        docPath = path.resolve @project.outPath, "#{segment.targetPath}.md"
 
-      @log.debug "segment.targetPath: %s", segment.targetPath
-      @log.debug "Making directory %s", path.dirname(docPath)
+        @log.debug "segment.targetPath: %s", segment.targetPath
+        @log.debug "Making directory %s", path.dirname(docPath)
 
-      fsTools.mkdir path.dirname(docPath), '0755', do (segment, docPath) =>
-        (error) =>
-          if error
-            @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
-            return callback error
-
-          segment.markdownedComments = Utils.trimBlankLines segment.markdownedComments
-          segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
-          segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
-
-          templateContext =
-            project:     @project
-            segments:    [segment]
-            pageTitle:   segment.pageTitle
-            sourcePath:  fileInfo.sourcePath
-            targetPath:  segment.targetPath
-            projectPath: fileInfo.projectPath
-
-          # How many levels deep are we?
-          pathChunks = path.dirname(templateContext.targetPath).split(/[\/\\]/)
-          if pathChunks.length == 1 && pathChunks[0] == '.'
-            templateContext.relativeRoot = ''
-          else
-            templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
-
-          try
-            data = @templateFunc templateContext
-
-          catch error
-            @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
-            # TODO: Consider continuing. The return statement dates from
-            # when it was assumed this function was rendering one output
-            # file.
-            return callback error
-
-          @log.debug 'Writing to docPath: %s, data: %s', docPath, data
-
-          fs.writeFile docPath, data, 'utf-8', (error) =>
+        fsTools.mkdir path.dirname(docPath), '0755', do (segment, docPath) =>
+          (error) =>
             if error
-              @log.error 'Failed to write documentation file %s: %s', docPath, error.message
+              @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
+              return callback error
+
+            segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
+            segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
+
+            templateContext =
+              project:     @project
+              segments:    [segment]
+              pageTitle:   segment.pageTitle
+              sourcePath:  fileInfo.sourcePath
+              targetPath:  segment.targetPath
+              projectPath: fileInfo.projectPath
+
+            # How many levels deep are we?
+            pathChunks = path.dirname(templateContext.targetPath).split(/[\/\\]/)
+            if pathChunks.length == 1 && pathChunks[0] == '.'
+              templateContext.relativeRoot = ''
+            else
+              templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
+
+            try
+              data = @templateFunc templateContext
+
+            catch error
+              @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
               # TODO: Consider continuing. The return statement dates from
               # when it was assumed this function was rendering one output
               # file.
               return callback error
 
-      @log.pass docPath
-      callback()
+            @log.debug 'Writing to docPath: %s, data: %s', docPath, data
+
+            fs.writeFile docPath, data, 'utf-8', (error) =>
+              if error
+                @log.error 'Failed to write documentation file %s: %s', docPath, error.message
+                # TODO: Consider continuing. The return statement dates from
+                # when it was assumed this function was rendering one output
+                # file.
+                return callback error
+
+        @log.pass docPath
+        callback()
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
