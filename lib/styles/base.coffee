@@ -72,7 +72,7 @@ module.exports = class Base
 
     for segment in segments
       if segment.targetPath != undefined
-        docPath = path.resolve @project.outPath, "#{segment.targetPath}.md"
+        docPath = path.resolve @project.outPath, "#{segment.targetPath}"
 
         @log.debug "segment.targetPath: %s", segment.targetPath
         @log.debug "Making directory %s", path.dirname(docPath)
