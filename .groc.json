@@ -8,7 +8,7 @@
         ".groc.json",
         "package.json"
     ],
-    "exclude": [
+    "except": [
         "doc/**"
     ],
     "out": "./doc",
