@@ -1,3 +1,6 @@
+---
+target: doc/README.md
+---
 # groc
 
 Groc takes your _documented_ code, and in an admission that people aren't machines, generates

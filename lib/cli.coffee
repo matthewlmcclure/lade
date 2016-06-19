@@ -83,6 +83,11 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Only render files if the source is newer than the output."
       default:  true
 
+    # ---
+    # target: doc/cli/out.md
+    # ---
+    # `--out`: The directory to place generated documentation,
+    # relative to the project root [./doc]
     out:
       describe: "The directory to place generated documentation, relative to the project root."
       alias:    'o'
