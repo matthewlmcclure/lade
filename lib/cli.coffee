@@ -84,7 +84,7 @@ module.exports = CLI = (inputArgs, callback) ->
       default:  true
 
     # ---
-    # target: doc/cli/out.md
+    # target: cli/out.md
     # ---
     # `--out`: The directory to place generated documentation,
     # relative to the project root [./doc]

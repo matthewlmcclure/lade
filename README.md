@@ -1,5 +1,5 @@
 ---
-target: doc/README.md
+target: README.md
 ---
 # groc
 

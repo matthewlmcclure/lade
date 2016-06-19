@@ -11,7 +11,7 @@
     "exclude": [
         "doc/**"
     ],
-    "out": ".",
+    "out": "./doc",
     "only-render-newer": false,
     "github": false,
     "repository-url": "https://github.com/matthewlmcclure/groc"
