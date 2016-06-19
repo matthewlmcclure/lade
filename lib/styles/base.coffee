@@ -122,7 +122,8 @@ module.exports = class Base
                 return callback error
 
         @log.pass docPath
-        callback()
+
+      callback()
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
