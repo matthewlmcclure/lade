@@ -58,7 +58,6 @@ module.exports = class Project
     @stripPrefixes = [@root + CompatibilityHelpers.pathSep].concat @stripPrefixes
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
-    indexPath = path.resolve @root, @index
 
     pool = spate.pool (k for k of fileMap), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
       @log.debug "Processing %s", currentFile
@@ -72,8 +71,8 @@ module.exports = class Project
         language:    language
         sourcePath:  currentFile
         projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
-        targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
-        pageTitle:   if currentFile == indexPath then (options.indexPageTitle || 'index') else fileMap[currentFile]
+        targetPath:  fileMap[currentFile]
+        pageTitle:   fileMap[currentFile]
 
       targetFullPath = path.resolve @outPath, "#{fileInfo.targetPath}.html"
       

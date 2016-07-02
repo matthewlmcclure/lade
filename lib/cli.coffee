@@ -55,36 +55,37 @@ module.exports = CLI = (inputArgs, callback) ->
 
   optionsConfig =
 
+    # ---
+    # target: includes/_cli_help.md
+    # ---
+    # `--help`: Command line usage
     help:
       describe: "You're looking at it."
       alias:   ['h', '?']
       type:     'boolean'
 
+    # ---
+    # target: includes/_cli_glob.md
+    # ---
+    # `--glob`: A file path or globbing expression that matches files
+    # to generate documentation for.
     glob:
       describe: "A file path or globbing expression that matches files to generate documentation for."
       default:  (opts) -> opts.argv._
       type:     'list'
 
+    # ---
+    # target: includes/_cli_except.md
+    # ---
+    # `--except`: Glob expression of files to exclude.  Can be
+    # specified multiple times.
     except:
       describe: "Glob expression of files to exclude.  Can be specified multiple times."
       alias:    'e'
       type:     'list'
 
-    github:
-      describe: "Generate your docs in the gh-pages branch of your git repository.  --out is ignored."
-      alias:    'gh'
-      type:     'boolean'
-
-    'repository-url':
-      describe: "Supply your GitHub repository URL (if groc fails to guess it)."
-      type:     'string'
-
-    'only-render-newer':
-      describe: "Only render files if the source is newer than the output."
-      default:  true
-
     # ---
-    # target: cli/out.md
+    # target: includes/_cli_out.md
     # ---
     # `--out`: The directory to place generated documentation,
     # relative to the project root [./doc]
@@ -94,63 +95,53 @@ module.exports = CLI = (inputArgs, callback) ->
       default:  './doc'
       type:     'string'
 
-    index:
-      describe: "The file to use as the index of the generated documentation."
-      alias:    'i'
-      default:  'README.md'
-
-    'index-page-title':
-      describe: "The index's page title in the generated documentation."
-      default:  'index'
-
+    # ---
+    # target: includes/_cli_root.md
+    # ---
+    # `--root`: The root directory of the project.
     root:
       describe: "The root directory of the project."
       alias:    'r'
       default:  '.'
       type:     'path'
 
-    style:
-      describe: "The style to use when generating documentation."
-      alias:    's'
-      default:  'Default'
-
-    highlighter:
-      describe: "The highlighter to use. Either highlight.js (default) or pygments."
-      alias:    'hl'
-      default:  'highlight.js'
-
-    strip:
-      describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
-      alias:    't'
-
-    'empty-lines':
-      describe: "Allow empty comment lines."
-      default:  true
-      type:     'boolean'
-
-    'whitespace-after-token':
-      describe: "Require whitespace after a comment token for a line to be considered a comment."
-      default:  true
-      type:     'boolean'
-
+    # ---
+    # target: includes/_cli_languages.md
+    # ---
+    # `--languages`: Path to language definition file.
     languages:
       describe: "Path to language definition file."
       default:  "#{__dirname}/languages"
       type:     'path'
 
+    # ---
+    # target: includes/_cli_silent.md
+    # ---
+    # `--silent`: Output errors only.
     silent:
       describe: "Output errors only."
 
+    # ---
+    # target: includes/_cli_version.md
+    # ---
+    # `--version`: Shows you the current version of groc
     version:
       describe: "Shows you the current version of groc (#{PACKAGE_INFO.version})"
       alias:    'v'
 
+    # ---
+    # target: includes/_cli_verbose.md
+    # ---
+    # `--verbose`: Output the inner workings of groc to help diagnose issues.
     verbose:
       describe: "Output the inner workings of groc to help diagnose issues."
 
+    # ---
+    # target: includes/_cli_very_verbose.md
+    # ---
+    # `--very-verbose`: Hey, you asked for it.
    'very-verbose':
       describe: "Hey, you asked for it."
-
 
   # ## Argument processing
 
@@ -220,7 +211,6 @@ module.exports = CLI = (inputArgs, callback) ->
 
   # There are several properties that we need to configure on a project before we can go ahead and
   # generate its documentation.
-  project.index = path.resolve(argv.root, argv.index)
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
@@ -233,57 +223,10 @@ module.exports = CLI = (inputArgs, callback) ->
     catch error
 
   options =
-    indexPageTitle: argv['index-page-title']
     onlyRenderNewer: argv['only-render-newer']
     style: style
 
-  # Good to go!
-  unless argv.github
-    project.githubURL = argv['repository-url']
-
-    project.generate options, (error) ->
-      callback error
-
-  # ## GitHub
-  else
-    # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
-    # handy for things like generating links directly to each file's source.
-    CLIHelpers.guessPrimaryGitHubURL argv['repository-url'], (error, url, remote) ->
-      console.log "publish_to_github", error, url, remote
-
-      if error
-        project.log.error error.message
-        return callback error
-
-      project.githubURL = url
-
-      # We hide the docs inside `.git/groc-tmp` so that we can switch branches without losing the
-      # generated output.  It also keeps us out of the business of finding an OS-sanctioned
-      # temporary path.
-      project.outPath = path.resolve path.join '.git', 'groc-tmp'
-
-      # Dealing with generation for github pages is pretty involved, and requires a lot of back
-      # and forth with git.  Rather than descend into callback hell in Node, we farm the logic
-      # out to a shell script.
-
-      project.generate options, (error) ->
-        return callback error if error
-
-        project.log.info ''
-        project.log.info 'Publishing documentation to github...'
-
-        # Roughly, the publishing script:
-        #
-        # 1. Switches to the `gh-pages` branch (creating it if necessary)
-        # 2. Copies the generated docs from `.git/groc-tmp` over any existing files in the branch.
-        # 3. Creates a commit with _just_ the generated docs; any additional files are removed.
-        # 4. Cleans up and switches back to the user's original branch.
-        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote, projectConfig.commitMessage]
-
-        script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
-        script.stderr.on 'data', (data) -> project.log.error data.toString().trim()
-
-        script.on 'exit', (code) ->
-          return callback new Error 'Git publish failed' if code != 0
+  project.generate options, (error) ->
+    callback error
 
           callback()
