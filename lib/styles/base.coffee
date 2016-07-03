@@ -35,35 +35,16 @@ module.exports = class Base
           @log.error 'Failed to markdown doc tags %s: %s\n', fileInfo.sourcePath, error.message, error.stack
           return callback error
 
-        @renderDocTags segments
-
-        if @project.options.highlighter is 'pygments'
-          highlightCode = Utils.highlightCodeUsingPygments
-        else
-          highlightCode = Utils.highlightCodeUsingHighlightJS
-
-        highlightCode segments, fileInfo.language, (error) =>
+        Utils.markdownComments segments, @project, (error) =>
+          @log.debug 'Entering markdownComments callback'
           if error
-            if error.failedHighlights
-              for highlight, i in error.failedHighlights
-                @log.debug "highlight #{i}:"
-                @log.warn   segments[i]?.code.join '\n'
-                @log.error  highlight
-
-            @log.error 'Failed to highlight %s as %s: %s', fileInfo.sourcePath, fileInfo.language.name, error.message or error
+            @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
             return callback error
 
-          Utils.markdownComments segments, @project, (error) =>
-            if error
-              @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
-              return callback error
+          # We also prefer to split out solo headers
+          segments = StyleHelpers.segmentizeSoloHeaders segments
 
-            # We also prefer to split out solo headers
-            segments = StyleHelpers.segmentizeSoloHeaders segments
-
-            @renderDocFile segments, fileInfo, callback
-
-  # renderDocTags: # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+          @renderDocFile segments, fileInfo, callback
 
   renderDocFile: (segments, fileInfo, callback) ->
     @log.trace 'BaseStyle#renderDocFile(..., %j, ...)', fileInfo
@@ -83,7 +64,6 @@ module.exports = class Base
               @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
               return callback error
 
-            segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
             segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
 
             templateContext =
@@ -127,8 +107,6 @@ module.exports = class Base
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
-
-    @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
 
     callback()
 

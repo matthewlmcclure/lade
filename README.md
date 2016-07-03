@@ -3,17 +3,17 @@ target: index.html.md
 ---
 ---
 includes:
-  - cli_heading.md
-  - cli_help.md
-  - cli_glob.md
-  - cli_except.md
-  - cli_out.md
-  - cli_root.md
-  - cli_languages.md
-  - cli_silent.md
-  - cli_version.md
-  - cli_verbose.md
-  - cli_very_verbose.md
+  - cli/heading.md
+  - cli/help.md
+  - cli/glob.md
+  - cli/except.md
+  - cli/out.md
+  - cli/root.md
+  - cli/languages.md
+  - cli/silent.md
+  - cli/version.md
+  - cli/verbose.md
+  - cli/very_verbose.md
 
 ---
 # mlmgroc
@@ -101,7 +101,7 @@ MlmGroc's own configuration is:
 {
     "glob": [
         "**/*.md",
-        "lib/**/*.coffee",
+        "**/*.coffee",
         ".groc.json",
         "package.json"
     ],
@@ -118,7 +118,8 @@ pre-defined configuration.
 
 ## Known Issues
 
-* I took groc apart, and there is work left to put it back together.
+* I'm still taking groc apart, and there will be more work ahead to
+  put it back together.
 * MlmGroc's own documentation produces many small partial Markdown
   files. It seems more desirable that it could assemble fragments from
   many places in the source code into a given Markdown file so that

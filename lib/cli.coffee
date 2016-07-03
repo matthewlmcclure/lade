@@ -56,7 +56,7 @@ module.exports = CLI = (inputArgs, callback) ->
   optionsConfig =
 
     # ---
-    # target: includes/_cli_help.md
+    # target: includes/cli/_help.md
     # ---
     # `--help`: Command line usage
     help:
@@ -65,7 +65,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'boolean'
 
     # ---
-    # target: includes/_cli_glob.md
+    # target: includes/cli/_glob.md
     # ---
     # `--glob`: A file path or globbing expression that matches files
     # to generate documentation for.
@@ -75,7 +75,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'list'
 
     # ---
-    # target: includes/_cli_except.md
+    # target: includes/cli/_except.md
     # ---
     # `--except`: Glob expression of files to exclude.  Can be
     # specified multiple times.
@@ -85,7 +85,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'list'
 
     # ---
-    # target: includes/_cli_out.md
+    # target: includes/cli/_out.md
     # ---
     # `--out`: The directory to place generated documentation,
     # relative to the project root [./doc]
@@ -96,7 +96,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'string'
 
     # ---
-    # target: includes/_cli_root.md
+    # target: includes/cli/_root.md
     # ---
     # `--root`: The root directory of the project.
     root:
@@ -106,7 +106,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'path'
 
     # ---
-    # target: includes/_cli_languages.md
+    # target: includes/cli/_languages.md
     # ---
     # `--languages`: Path to language definition file.
     languages:
@@ -115,14 +115,14 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'path'
 
     # ---
-    # target: includes/_cli_silent.md
+    # target: includes/cli/_silent.md
     # ---
     # `--silent`: Output errors only.
     silent:
       describe: "Output errors only."
 
     # ---
-    # target: includes/_cli_version.md
+    # target: includes/cli/_version.md
     # ---
     # `--version`: Shows you the current version of groc
     version:
@@ -130,14 +130,14 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    'v'
 
     # ---
-    # target: includes/_cli_verbose.md
+    # target: includes/cli/_verbose.md
     # ---
     # `--verbose`: Output the inner workings of groc to help diagnose issues.
     verbose:
       describe: "Output the inner workings of groc to help diagnose issues."
 
     # ---
-    # target: includes/_cli_very_verbose.md
+    # target: includes/cli/_very_verbose.md
     # ---
     # `--very-verbose`: Hey, you asked for it.
    'very-verbose':
@@ -198,7 +198,6 @@ module.exports = CLI = (inputArgs, callback) ->
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
   project.options.showdown = argv.showdown
   project.options.languages = argv.languages
-  project.options.highlighter = argv.highlighter
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.
@@ -229,4 +228,6 @@ module.exports = CLI = (inputArgs, callback) ->
   project.generate options, (error) ->
     callback error
 
-          callback()
+# Local Variables:
+# coffee-tab-width: 2
+# End:
