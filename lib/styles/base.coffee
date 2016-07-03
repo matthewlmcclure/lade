@@ -49,8 +49,6 @@ module.exports = class Base
   renderDocFile: (segments, fileInfo, callback) ->
     @log.trace 'BaseStyle#renderDocFile(..., %j, ...)', fileInfo
 
-    throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
-
     for segment in segments
       if segment.targetPath != undefined
         docPath = path.resolve @project.outPath, "#{segment.targetPath}"
@@ -66,26 +64,11 @@ module.exports = class Base
 
             segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
 
-            templateContext =
-              project:     @project
-              segments:    [segment]
-              pageTitle:   segment.pageTitle
-              sourcePath:  fileInfo.sourcePath
-              targetPath:  segment.targetPath
-              projectPath: fileInfo.projectPath
-
-            # How many levels deep are we?
-            pathChunks = path.dirname(templateContext.targetPath).split(/[\/\\]/)
-            if pathChunks.length == 1 && pathChunks[0] == '.'
-              templateContext.relativeRoot = ''
-            else
-              templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
-
             try
-              data = @templateFunc templateContext
+              data = segment.plainComments
 
             catch error
-              @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
+              @log.error 'Rendering documentation for %s failed: %s', docPath, error.message
               # TODO: Consider continuing. The return statement dates from
               # when it was assumed this function was rendering one output
               # file.
