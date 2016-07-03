@@ -1,13 +1,15 @@
 {
     "glob": [
+        "bin/groc",
         "**/*.md",
-        "lib/**/*.coffee",
+        "**/*.coffee",
         ".groc.json",
         "package.json"
     ],
     "except": [
         "node_modules/**"
     ],
+    "languages": "lib/languages_groc.coffee",
     "out": "./doc",
     "only-render-newer": false
 }
