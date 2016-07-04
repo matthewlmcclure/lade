@@ -1,6 +1,3 @@
-# Matt, document this, and delete unused code. Consider if doc tags
-# are obsolete.
-
 fs   = require 'fs'
 path = require 'path'
 
@@ -10,13 +7,57 @@ StyleHelpers = require '../utils/style_helpers'
 Utils        = require '../utils'
 
 
+# ---
+# target: includes/contributor/lib/styles/_default.md
+# ---
+# ## `Default`
+#
+# The default rendering style
 module.exports = class Default
+  # ---
+  # target: includes/contributor/lib/styles/default/_constructor.md
+  # ---
+  # ### `constructor`
+  #
+  # ```coffeescript
+  # new Default project
+  # ```
+  #
+  # Create a new `Default` instance.
+  #
+  # #### Parameters
+  #
+  # * `project`: a `Project`
+  #
+  # #### Result
+  #
+  # A `Default` instance
   constructor: (project) ->
     @project = project
     @log     = project.log
     @files   = []
     @outline = {} # Keyed on target path
 
+  # ---
+  # target: includes/contributor/lib/styles/default/_renderFile.md
+  # ---
+  # ### `renderFile`
+  #
+  # ```coffeescript
+  # renderFile data, fileInfo, done
+  # ```
+  #
+  # Render given file content.
+  #
+  # #### Parameters
+  #
+  # * `data`: source file content
+  # * `fileInfo`: source file metadata
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   renderFile: (data, fileInfo, callback) ->
     @log.trace 'DefaultStyle#renderFile(..., %j, ...)', fileInfo
 
