@@ -89,7 +89,7 @@ module.exports = class Project
           
             # Mark the file as processed in the style, and return.
             # 
-            # TODO this is a bad API, "Base" style class should provide a
+            # TODO this is a bad API, "Default" style class should provide a
             # method to this effect.
             style.files.push fileInfo
             return done()

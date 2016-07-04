@@ -218,7 +218,7 @@ module.exports = CLI = (inputArgs, callback) ->
   # If a style was passed in, but it isn't registered, try loading a module.
   unless argv.style? and (style = styles[argv.style])?
     try
-      style = require(argv.style) require './styles/base'
+      style = require(argv.style) require './styles/default'
     catch error
 
   options =

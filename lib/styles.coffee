@@ -1,5 +1,4 @@
-Base = require './styles/base'
+Default = require './styles/default'
 
 module.exports = styles =
-  Base:    Base
-  Default: require('./styles/default') Base
+  Default:    Default
