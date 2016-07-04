@@ -194,7 +194,6 @@ module.exports = CLI = (inputArgs, callback) ->
   project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
 
   # Set up project-specific options as we get them.
-  project.options.allowEmptyLines = !!argv['empty-lines']
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
   project.options.showdown = argv.showdown
   project.options.languages = argv.languages

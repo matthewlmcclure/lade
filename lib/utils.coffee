@@ -450,8 +450,7 @@ module.exports = Utils =
               currSegment.comments.push comment
 
         else
-          if options.allowEmptyLines
-            currSegment.comments.push ''
+          currSegment.comments.push ''
 
       # We surely (should) have raw code at this point.
       else
