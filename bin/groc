@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // ---
-// target: includes/internals/bin/_groc.md
+// target: includes/contributor/internals/bin/_groc.md
 // ---
 // `bin/groc` is the main entry point. It delegates to `lib/cli.coffee`.
 require('../').CLI(process.argv.slice(2), function(error) {
