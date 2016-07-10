@@ -147,9 +147,6 @@ module.exports = CLI = (inputArgs, callback) ->
 
   # We treat the values within the current project's `.groc.json` as defaults, so that you can
   # easily override the persisted configuration when testing and tweaking.
-  #
-  # For example, if you have configured your `.groc.json` to include `"github": true`, it is
-  # extremely helpful to use `groc --no-github` until you are satisfied with the generated output.
   projectConfigPath = path.resolve '.groc.json'
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
