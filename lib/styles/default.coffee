@@ -3,7 +3,6 @@ path = require 'path'
 
 fsTools = require 'fs-tools'
 
-StyleHelpers = require '../utils/style_helpers'
 Utils        = require '../utils'
 
 
@@ -93,9 +92,6 @@ module.exports = class Default
           if error
             @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
             return callback error
-
-          # We also prefer to split out solo headers
-          segments = StyleHelpers.segmentizeSoloHeaders segments
 
           # TODO: Consider the possibility that splitSource and
           # delegation to renderDocFile will be the only thing left.
