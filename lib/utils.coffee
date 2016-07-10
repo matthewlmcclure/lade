@@ -460,7 +460,12 @@ module.exports = Utils =
 
     segments
 
-  # Just a convenient prototype for building segments
+  # ---
+  # target: includes/contributor/utils/_Segment.md
+  # ---
+  # ## `Segment`
+  #
+  # A container to hold code lines and corresponding comment lines
   Segment: class Segment
     constructor: (code=[], comments=[], foldMarker='') ->
       @code     = code

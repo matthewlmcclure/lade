@@ -49,6 +49,9 @@ module.exports = class Default
   #
   # Render given file content.
   #
+  # `renderFile` expects that `data` contains output destinations for
+  # its corresponding content.
+  #
   # #### Parameters
   #
   # * `data`: source file content
@@ -68,6 +71,8 @@ module.exports = class Default
 
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 
+    # TODO: Consider removing parseDocTags and markdownDocTags. I
+    # think they might be unused.
     Utils.parseDocTags segments, @project, (error) =>
       @log.debug 'Entering parseDocTags callback'
       if error
@@ -80,6 +85,9 @@ module.exports = class Default
           @log.error 'Failed to markdown doc tags %s: %s\n', fileInfo.sourcePath, error.message, error.stack
           return callback error
 
+        # TODO: Consider removing markdownComments. I think it might
+        # be unused or degenerate since I've delegated groc's former
+        # responsibility for rendering Markdown to HTML to slate.
         Utils.markdownComments segments, @project, (error) =>
           @log.debug 'Entering markdownComments callback'
           if error
@@ -89,8 +97,33 @@ module.exports = class Default
           # We also prefer to split out solo headers
           segments = StyleHelpers.segmentizeSoloHeaders segments
 
+          # TODO: Consider the possibility that splitSource and
+          # delegation to renderDocFile will be the only thing left.
           @renderDocFile segments, fileInfo, callback
 
+  # ---
+  # target: includes/contributor/lib/styles/default/_renderDocFile.md
+  # ---
+  # ### `renderDocFile`
+  #
+  # ```coffeescript
+  # renderDocFile segments, fileInfo, callback
+  # ```
+  #
+  # Render given segments of documentation and code.
+  #
+  # `renderDocFile` expects that `segments` contains output
+  # destinations for its corresponding content.
+  #
+  # #### Parameters
+  #
+  # * `segments`: array of `Segment` elements
+  # * `fileInfo`: source file metadata
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   renderDocFile: (segments, fileInfo, callback) ->
     @log.trace 'DefaultStyle#renderDocFile(..., %j, ...)', fileInfo
 
@@ -100,16 +133,37 @@ module.exports = class Default
         return callback error if error
 
         countFinished++
-        @log.debug 'Finished %s out of %s segments in %s', countFinished, segments.length, fileInfo.sourcePath
+        @log.trace 'Finished %s out of %s segments in %s', countFinished, segments.length, fileInfo.sourcePath
         if countFinished == segments.length
           callback()
 
+  # ---
+  # target: includes/contributor/lib/styles/default/_renderSegment.md
+  # ---
+  # ### `renderSegment`
+  #
+  # ```coffeescript
+  # renderSegment segment, callback
+  # ```
+  #
+  # Render given segment of documentation and code.
+  #
+  # `renderSegment` expects that `segment.targetPath` contains an
+  # output destination for its corresponding content.
+  #
+  # #### Parameters
+  #
+  # * `segment`: a `Segment`
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   renderSegment: (segment, callback) ->
     if segment.targetPath != undefined
       docPath = path.resolve @project.outPath, "#{segment.targetPath}"
 
-      @log.debug "segment.targetPath: %s", segment.targetPath
-      @log.debug "Making directory %s", path.dirname(docPath)
+      @log.trace "Creating directory %s", path.dirname(docPath)
 
       fsTools.mkdir path.dirname(docPath), '0755', do (segment, docPath) =>
         (error) =>
@@ -117,9 +171,13 @@ module.exports = class Default
             @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
             return callback error
 
+          # TODO: Learn what fold markers are. Consider removing them.
           segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
 
           try
+            # TODO: Consider changing plainComments name to simply
+            # comments. It is named plainComments to distinguish it
+            # from HTML-rendered comments.
             data = segment.plainComments
 
           catch error
@@ -135,6 +193,26 @@ module.exports = class Default
     else
       callback()
 
+  # ---
+  # target: includes/contributor/lib/styles/default/_writeDocFile.md
+  # ---
+  # ### `writeDocFile`
+  #
+  # ```coffeescript
+  # writeDocFile docPath, data, callback
+  # ```
+  #
+  # Write given documentation `data` to `docPath`.
+  #
+  # #### Parameters
+  #
+  # * `docPath`: filesystem path to output file
+  # * `data`: data to write to output file
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   writeDocFile: (docPath, data, callback) ->
     fs.writeFile docPath, data, 'utf-8', (error) =>
       if error
@@ -148,6 +226,24 @@ module.exports = class Default
 
       callback()
 
+  # ---
+  # target: includes/contributor/lib/styles/default/_renderCompleted.md
+  # ---
+  # ### `renderCompleted`
+  #
+  # ```coffeescript
+  # renderCompleted callback
+  # ```
+  #
+  # Indicate rendering completed.
+  #
+  # #### Parameters
+  #
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   renderCompleted: (callback) ->
     @log.trace 'DefaultStyle#renderCompleted(...)'
 
