@@ -14,6 +14,12 @@ includes:
   - contributor/lib/utils/CLIHelpers.md
   - contributor/lib/utils/CLIHelpers/configureOptimist.md
   - contributor/lib/utils/CLIHelpers/extractArgv.md
+  - contributor/lib/utils/Logger.md
+  - contributor/lib/utils/Logger/LEVELS.md
+  - contributor/lib/utils/Logger/constructor.md
+  - contributor/lib/utils/Logger/level_functions.md
+  - contributor/lib/utils/Logger/emit.md
+  - contributor/lib/utils/Logger/globalLogger.md
 
 ---
 # MlmGroc Contributor Guide
