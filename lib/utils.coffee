@@ -10,7 +10,6 @@ YAML         = require 'yamljs'
 
 _        = require 'underscore'
 
-CompatibilityHelpers = require './utils/compatibility_helpers'
 LANGUAGES            = null
 DOC_TAGS             = require './doc_tags'
 Logger               = require './utils/logger'
@@ -65,7 +64,7 @@ module.exports = Utils =
 
     # And that the strip prefixes all end with a /, avoids absolute target path.
     stripPrefixes = stripPrefixes.map (p) ->
-      path.join "#{path.resolve resolveRoot, p}#{CompatibilityHelpers.pathSep}"
+      path.join "#{path.resolve resolveRoot, p}#{path.sep}"
 
     # Prefixes are stripped in the order of most specific to least
     # (# of directories deep)
@@ -94,7 +93,7 @@ module.exports = Utils =
       # Most globs look something like dir/**/*.ext, so strip up to the leading *
       arg = arg.replace /\*.*$/, ''
 
-      result.push arg if arg.slice(-1) == CompatibilityHelpers.pathSep
+      result.push arg if arg.slice(-1) == path.sep
 
     # For now, we try to avoid ambiguous situations by guessing the FIRST
     # directory given.  The assumption is that you don't want merged paths,

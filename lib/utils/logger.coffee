@@ -1,9 +1,7 @@
 # # groc.Logger
 
 colors = require 'colors'
-
-CompatibilityHelpers = require './compatibility_helpers'
-
+util = require 'util'
 
 # We have pretty simple needs for a logger, and so far have been unable to find a reasonable
 # off-the-shelf solution that fits them without being too overbearing:
@@ -56,7 +54,7 @@ module.exports = class Logger
 
   emit: (levelName, args...) ->
     if @LEVELS[levelName] >= @minLevel
-      output = CompatibilityHelpers.format args...
+      output = util.format args...
 
       # * We like nicely indented output
       output = output.split(/\r?\n/).join('\n  ')

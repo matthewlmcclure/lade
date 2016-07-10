@@ -5,7 +5,6 @@ path = require 'path'
 
 spate = require 'spate'
 
-CompatibilityHelpers = require './utils/compatibility_helpers'
 Logger               = require './utils/logger'
 Utils                = require './utils'
 styles               = require './styles'
@@ -55,7 +54,7 @@ module.exports = class Project
     # We need to ensure that the project root is a strip prefix so that we properly generate
     # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
     # so that they can strip from the remainder.
-    @stripPrefixes = [@root + CompatibilityHelpers.pathSep].concat @stripPrefixes
+    @stripPrefixes = [@root + path.sep].concat @stripPrefixes
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
 
@@ -70,7 +69,7 @@ module.exports = class Project
       fileInfo =
         language:    language
         sourcePath:  currentFile
-        projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
+        projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + path.sep}///, ''
         targetPath:  fileMap[currentFile]
         pageTitle:   fileMap[currentFile]
 
