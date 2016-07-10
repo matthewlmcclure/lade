@@ -15,37 +15,54 @@ styles       = require './styles'
 Utils        = require './utils'
 
 
-# Readable command line output is just as important as readable documentation!  It is the first
-# interaction that a developer will have with a tool like this, so we want to leave a good
-# impression with nicely formatted and readable command line output.
+# ## `CLI`
+#
+# ```javascript
+# CLI(process.argv.slice(2), function(error) {
+#   if (error) {
+#     process.exit(1)
+#   }
+# })
+# ```
+#
+# Invoke Groc with the given command line arguments
+#
+# ### Parameters
+#
+# * `inputArgs`: array of command line arguments
+# * `callback`: function to call on completion
+#
+# ### Result
+#
+# The result of `project.generate`
 module.exports = CLI = (inputArgs, callback) ->
-  # In keeping with our console beautification project, make sure that our output isn't getting
-  # too comfortable with the user's next shell line.
+  # Make sure that output doesn't get too comfortable with the user's
+  # next shell line.
   actualCallback = callback
   callback = (args...) ->
     console.log ''
 
     actualCallback args...
 
-  # We use [Optimist](https://github.com/substack/node-optimist) to parse our command line arguments
-  # in a sane manner, and manage the myriad of options.
+  # Use [Optimist](https://github.com/substack/node-optimist) to parse
+  # command line arguments, and manage the options.
   opts = optimist inputArgs
 
-
-  # ## CLI Overview
-
-  # Readable command line output is just as important as readable documentation! It is the first
-  # interaction that a developer will have with a tool like this, so we want to leave a good
-  # impression with nicely formatted and readable output.
+  # Leave a good impression with nicely formatted and readable output.
   opts
+    # TODO: Fix issue: Wrapping makes optimist fail if any option has
+    # a default value too long
+    .wrap(80)
     .usage("""
     Usage: groc [options] "lib/**/*.coffee" doc/*.md
 
-    groc accepts lists of files and (quoted) glob expressions to match the files you would like to
-    generate documentation for.  Any unnamed options are shorthand for --glob arg.
+    groc accepts lists of files and (quoted) glob expressions to match
+    the files you would like to generate documentation for.  Any
+    unnamed options are shorthand for --glob arg.
 
-    You can also specify arguments via a configuration file in the current directory named
-    .groc.json.  It should contain a mapping between option names and their values.  For example:
+    You can also specify arguments via a configuration file in the
+    current directory named .groc.json.  It should contain a mapping
+    between option names and their values.  For example:
 
       { "glob": ["lib", "vendor"], out: "documentation", strip: [] }
     """)
