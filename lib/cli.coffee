@@ -64,7 +64,7 @@ module.exports = CLI = (inputArgs, callback) ->
     current directory named .groc.json.  It should contain a mapping
     between option names and their values.  For example:
 
-      { "glob": ["lib", "vendor"], out: "documentation", strip: [] }
+      TODO: ...
     """)
 
 
@@ -179,8 +179,8 @@ module.exports = CLI = (inputArgs, callback) ->
   # the extra options behavior that we require.
   CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
   #} We have one special case that depends on other defaults...
-  opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob unless projectConfig?.strip? and opts.argv.glob?
 
+  opts.default 'strip', []
   argv = CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
   Logger.trace 'argv: %j', argv if argv['very-verbose']

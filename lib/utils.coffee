@@ -86,20 +86,6 @@ module.exports = Utils =
 
     result
 
-  # Attempt to guess strip prefixes for a given set of arguments.
-  guessStripPrefixes: (args) ->
-    result = []
-    for arg in args
-      # Most globs look something like dir/**/*.ext, so strip up to the leading *
-      arg = arg.replace /\*.*$/, ''
-
-      result.push arg if arg.slice(-1) == path.sep
-
-    # For now, we try to avoid ambiguous situations by guessing the FIRST
-    # directory given.  The assumption is that you don't want merged paths,
-    # but probably did specify the most important source directory first.
-    result = _(result).uniq()[...1]
-
   # How many directories deep is a given path?
   pathDepth: (path) ->
     path.split(/[\/\\]/).length
