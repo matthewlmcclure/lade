@@ -208,7 +208,6 @@ module.exports = CLI = (inputArgs, callback) ->
   project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
 
   # Set up project-specific options as we get them.
-  project.options.showdown = argv.showdown
   project.options.languages = argv.languages
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
