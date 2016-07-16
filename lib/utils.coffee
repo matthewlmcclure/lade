@@ -105,7 +105,7 @@ module.exports = Utils =
     path.split(/[\/\\]/).length
 
   # Split source code into segments (comment + code pairs)
-  splitSource: (data, language, options={}) ->
+  splitSource: (data, language) ->
     lines = data.split /\r?\n/
 
     # Always strip shebangs - but don't shift it off the array to
@@ -121,8 +121,8 @@ module.exports = Utils =
     segments = []
     currSegment = new @Segment
 
-    # Enforced whitespace after the comment token
-    whitespaceMatch = if options.requireWhitespaceAfterToken then '\\s' else '\\s?'
+    # Make whitespace after the comment token optional
+    whitespaceMatch = '\\s?'
 
     if language.singleLineComment?
       singleLines = @regexpEscape(language.singleLineComment).join '|'
@@ -208,20 +208,14 @@ module.exports = Utils =
       stripMarks.push foldPrefix if foldPrefix?
       stripMarks = @regexpEscape(stripMarks).join '|'
 
-      # Strip final space only if one is required, hence yet present.
-      stripSpace = if options.requireWhitespaceAfterToken then '(?:\\s)?' else ''
-
-      # A dirty lap-dance performed here …
       singleStrip = ///
         (                           # Capture this group:
           (?:#{singleLines})        #   The comment marker(s) to keep …
           #{whitespaceMatch}        #   … plus whitespace
         )
         (?:#{stripMarks})           # The marker(s) to strip from result
-        #{stripSpace}               #   … plus an optional whitespace.
       /// if singleLines?
 
-      # … and the corresponding gang-bang here. 8-)
       blockStrip = ///
         (                           # Capture this group:
           (?:#{blockStarts})        #   The comment marker(s) to keep …
@@ -229,7 +223,6 @@ module.exports = Utils =
           #{whitespaceMatch}        #   … plus whitespace
         )
         (?:#{stripMarks})           # The marker(s) to strip from result
-        #{stripSpace}               #   … plus an optional whitespace.
       /// if blockStarts?
 
     inBlock   = false

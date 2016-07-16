@@ -65,8 +65,7 @@ module.exports = class Default
 
     @files.push fileInfo
 
-    segments = Utils.splitSource data, fileInfo.language,
-      requireWhitespaceAfterToken: !!@project.options.requireWhitespaceAfterToken
+    segments = Utils.splitSource data, fileInfo.language
 
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 
