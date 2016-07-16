@@ -184,7 +184,7 @@ module.exports = CLI = (inputArgs, callback) ->
   #     "except": [
   #         "node_modules/**"
   #     ],
-  #     "out": "./doc",
+  #     "out": "./doc"
   # }
   # ```
   #
