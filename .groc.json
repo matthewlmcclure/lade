@@ -10,6 +10,5 @@
         "node_modules/**"
     ],
     "languages": "lib/languages_groc.coffee",
-    "out": "./build/doc",
-    "only-render-newer": false
+    "out": "./build/doc"
 }

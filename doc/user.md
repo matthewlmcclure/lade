@@ -76,7 +76,6 @@ MlmGroc's own configuration is:
         "node_modules/**"
     ],
     "out": "./doc",
-    "only-render-newer": false
 }
 ```
 

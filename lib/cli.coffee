@@ -235,7 +235,6 @@ module.exports = CLI = (inputArgs, callback) ->
     catch error
 
   options =
-    onlyRenderNewer: argv['only-render-newer']
     style: style
 
   project.generate options, (error) ->

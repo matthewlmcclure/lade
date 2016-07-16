@@ -74,25 +74,7 @@ module.exports = class Project
         pageTitle:   fileMap[currentFile]
 
       targetFullPath = path.resolve @outPath, "#{fileInfo.targetPath}.html"
-      
-      # Only render files whose sources are newer than output?
-      if options.onlyRenderNewer
-        
-        if fs.existsSync(currentFile) and fs.existsSync(targetFullPath)
-          
-          sourceStat = fs.statSync currentFile
-          targetStat = fs.statSync targetFullPath
-          
-          # Compare timestamps.
-          if targetStat.mtime.getTime() > sourceStat.mtime.getTime()
-          
-            # Mark the file as processed in the style, and return.
-            # 
-            # TODO this is a bad API, "Default" style class should provide a
-            # method to this effect.
-            style.files.push fileInfo
-            return done()
-      
+
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error
           @log.error "Failed to process %s: %s", currentFile, error.message
