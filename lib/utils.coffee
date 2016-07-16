@@ -182,35 +182,6 @@ module.exports = Utils =
       ###
       aEmptyLine = ///^\s*(?:#{blockLines})$///
 
-    if language.ignorePrefix?
-      {ignorePrefix} = language
-
-    if language.foldPrefix?
-      {foldPrefix} = language
-
-    if (ignorePrefix? or foldPrefix?) and (singleLines? or blockStarts?)
-      stripMarks = []
-      stripMarks.push ignorePrefix if ignorePrefix?
-      stripMarks.push foldPrefix if foldPrefix?
-      stripMarks = @regexpEscape(stripMarks).join '|'
-
-      singleStrip = ///
-        (                           # Capture this group:
-          (?:#{singleLines})        #   The comment marker(s) to keep …
-          #{whitespaceMatch}        #   … plus whitespace
-        )
-        (?:#{stripMarks})           # The marker(s) to strip from result
-      /// if singleLines?
-
-      blockStrip = ///
-        (                           # Capture this group:
-          (?:#{blockStarts})        #   The comment marker(s) to keep …
-          (?:#{blockLines})?        #   … optionally plus one more mark
-          #{whitespaceMatch}        #   … plus whitespace
-        )
-        (?:#{stripMarks})           # The marker(s) to strip from result
-      /// if blockStarts?
-
     inBlock   = false
     inFolded  = false
     inIgnored = false
@@ -243,39 +214,6 @@ module.exports = Utils =
         # does not correspond to the initial `blockmark`.
         if linemark? and blockComments[blockmark].linemark isnt linemark
           blockline = "#{linemark}#{blockline}"
-
-        # Check if this block-comment is collapsible.
-        if foldPrefix? and blockline.indexOf(foldPrefix) is 0
-
-          # We always start a new segment if the current one is not empty or
-          # already folded.
-          if inFolded or currSegment.code.length > 0
-            segments.push currSegment
-            currSegment   = new @Segment
-
-          ### ^ collapsing block-comments:
-          # In block-comments only `aBlockStart` may initiate the collapsing.
-          # This comment utilizes this syntax, by starting the comment with `^`.
-          ###
-          inFolded  = true
-
-          # Let's strip the “^” character from our original line, for later use.
-          line = line.replace blockStrip, '$1'
-          # Also strip it from our `blockline`.
-          blockline = blockline[foldPrefix.length...]
-
-        # Check if this block-comment stays embedded in the code.
-        else if ignorePrefix? and blockline.indexOf(ignorePrefix) is 0
-          ### } embedded block-comments:
-          # In block-comments only `aBlockStart` may initiate the embedding.
-          # This comment utilizes this syntax, by starting the comment with `}`.
-          ###
-          inIgnored = true
-
-          # Let's strip the “}” character from our original line, for later use.
-          line = line.replace blockStrip, '$1'
-          # Also strip it from our `blockline`.
-          blockline = blockline[ignorePrefix.length...]
 
         # Block-comments are an important tool to structure code into larger
         # segments, therefore we always start a new segment if the current one
@@ -383,49 +321,14 @@ module.exports = Utils =
 
         if comment? and comment isnt ''
 
-          # } For example, this comment should be treated as part of our code.
-          # } Achieved by prefixing the comment's content with “}”
-          if ignorePrefix? and comment.indexOf(ignorePrefix) is 0
+          # The previous cycle contained code, so lets start a new segment
+          # and stop any folding.
+          if currSegment.code.length > 0
+            segments.push currSegment
+            currSegment   = new @Segment
+            inFolded      = false
 
-            # } Hint: never start a new segment here, these comments are code !
-            # } If we would do so the segments look visually not so appealing in
-            # } the narrowed single-column-view, and we can not embed a series
-            # } of comments like these here.
-
-            # Let's strip the “}” character from our documentation
-            currSegment.code.push line.replace singleStrip, '$1'
-
-          else
-
-            # The previous cycle contained code, so lets start a new segment
-            # and stop any folding.
-            if currSegment.code.length > 0
-              segments.push currSegment
-              currSegment   = new @Segment
-              inFolded      = false
-
-            # It's always a good idea to put a comment before folded content
-            # like this one here, because folded comments always have their
-            # own code-segment in their current implementation (see above).
-            # Without a leading comment, the folded code's segment would just
-            # follow the above's code segment, which looks visually not so
-            # appealing in the narrowed single-column-view.
-            #
-            # TODO: _Alternative (a)_: Improve folded comments to not start a new segment, like embedded comments from above. _(preferred solution)_
-            # TODO: _Alternative (b)_: Improve folded comments visual appearance in single-column view. _(easy solution)_
-            #
-            # ^ … if we start this comment with “^” instead of “}” it and all
-            # } code up to the next segment's first comment starts folded
-            if foldPrefix? and comment.indexOf(foldPrefix) is 0
-
-              # } … so folding stops below, as this is a new segment !
-              # Let's strip the “^” character from our documentation
-              currSegment.foldMarker = line.replace singleStrip, '$1'
-
-              # And collect it as code.
-              currSegment.code.push currSegment.foldMarker
-            else
-              currSegment.comments.push comment
+          currSegment.comments.push comment
 
         else
           currSegment.comments.push ''
