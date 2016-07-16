@@ -1,6 +1,5 @@
 ---
-target: includes/cli/_heading.md
+target: includes/user/cli/_heading.md
 ---
 ## Command Line Usage
-
 

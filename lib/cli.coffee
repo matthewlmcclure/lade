@@ -1,5 +1,3 @@
-# # Command Line Interface
-
 childProcess = require 'child_process'
 fs           = require 'fs'
 path         = require 'path'
@@ -15,6 +13,9 @@ styles       = require './styles'
 Utils        = require './utils'
 
 
+# ---
+# target: includes/contributor/lib/_cli.md
+# ---
 # ## `CLI`
 #
 # ```javascript
@@ -73,7 +74,7 @@ module.exports = CLI = (inputArgs, callback) ->
   optionsConfig =
 
     # ---
-    # target: includes/cli/_help.md
+    # target: includes/user/cli/_help.md
     # ---
     # `--help`: Command line usage
     help:
@@ -82,7 +83,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'boolean'
 
     # ---
-    # target: includes/cli/_glob.md
+    # target: includes/user/cli/_glob.md
     # ---
     # `--glob`: A file path or globbing expression that matches files
     # to generate documentation for.
@@ -92,7 +93,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'list'
 
     # ---
-    # target: includes/cli/_except.md
+    # target: includes/user/cli/_except.md
     # ---
     # `--except`: Glob expression of files to exclude.  Can be
     # specified multiple times.
@@ -102,7 +103,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'list'
 
     # ---
-    # target: includes/cli/_out.md
+    # target: includes/user/cli/_out.md
     # ---
     # `--out`: The directory to place generated documentation,
     # relative to the project root [./doc]
@@ -113,7 +114,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'string'
 
     # ---
-    # target: includes/cli/_root.md
+    # target: includes/user/cli/_root.md
     # ---
     # `--root`: The root directory of the project.
     root:
@@ -123,7 +124,7 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'path'
 
     # ---
-    # target: includes/cli/_languages.md
+    # target: includes/user/cli/_languages.md
     # ---
     # `--languages`: Path to language definition file.
     languages:
@@ -132,14 +133,14 @@ module.exports = CLI = (inputArgs, callback) ->
       type:     'path'
 
     # ---
-    # target: includes/cli/_silent.md
+    # target: includes/user/cli/_silent.md
     # ---
     # `--silent`: Output errors only.
     silent:
       describe: "Output errors only."
 
     # ---
-    # target: includes/cli/_version.md
+    # target: includes/user/cli/_version.md
     # ---
     # `--version`: Shows you the current version of groc
     version:
@@ -147,23 +148,48 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    'v'
 
     # ---
-    # target: includes/cli/_verbose.md
+    # target: includes/user/cli/_verbose.md
     # ---
     # `--verbose`: Output the inner workings of groc to help diagnose issues.
     verbose:
       describe: "Output the inner workings of groc to help diagnose issues."
 
     # ---
-    # target: includes/cli/_very_verbose.md
+    # target: includes/user/cli/_very_verbose.md
     # ---
     # `--very-verbose`: Hey, you asked for it.
    'very-verbose':
       describe: "Hey, you asked for it."
 
-  # ## Argument processing
-
-  # We treat the values within the current project's `.groc.json` as defaults, so that you can
-  # easily override the persisted configuration when testing and tweaking.
+  # ---
+  # target: includes/user/_configuration.md
+  # ---
+  # ## Configuring groc
+  #
+  # MlmGroc can configure itself from a file as an alternative to using
+  # command-line arguments.
+  #
+  # Create a `.groc.json` file in your project root, where each key maps
+  # to an argument you would pass to the `groc` command.  File names and
+  # globs are defined as an array with the key `glob`.  For example:
+  #
+  # ```json
+  # {
+  #     "glob": [
+  #         "**/*.md",
+  #         "**/*.coffee",
+  #         ".groc.json",
+  #         "package.json"
+  #     ],
+  #     "except": [
+  #         "node_modules/**"
+  #     ],
+  #     "out": "./doc",
+  # }
+  # ```
+  #
+  # If you invoke `groc` without any arguments, it will use your
+  # pre-defined configuration.
   projectConfigPath = path.resolve '.groc.json'
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
@@ -175,43 +201,35 @@ module.exports = CLI = (inputArgs, callback) ->
 
       return callback err
 
-  # We rely on [CLIHelpers.configureOptimist](utils/cli_helpers.html#configureoptimist) to provide
-  # the extra options behavior that we require.
+  # Configure Optimist to use two layers of default values
   CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
-  #} We have one special case that depends on other defaults...
 
+  # Configure the filesystem path prefixes to strip
   opts.default 'strip', []
-  argv = CLIHelpers.extractArgv opts, optionsConfig
-  # If we're in tracing mode, the parsed options are extremely helpful.
-  Logger.trace 'argv: %j', argv if argv['very-verbose']
 
-  # Version checks short circuit before our pretty printing begins, since it is
-  # one of those things that you might want to reference from other scripts.
+  # Extract arguments
+  argv = CLIHelpers.extractArgv opts, optionsConfig
+
+  # Short-circuit if the user is just checking the version
   return console.log PACKAGE_INFO.version if argv.version
 
-  # In keeping with our stance on readable output, we don't want it bumping up
-  # against the shell execution lines and blurring together; use that whitespace
-  # with great gusto!
-  console.log ''
-
+  # Short-circuit if the user is just asking for help
   return console.log opts.help() if argv.help
 
-  # ## Project Generation
-
-  # A [Project](project.html) is just a handy way to configure the generation process, and is in
-  # charge of kicking that off.
+  # Make a `Project` that refers to the input and output directories
   project = new Project argv.root, argv.out
 
-  # `--silent`, `--verbose` and `--very-verbose` just impact the logging level of the project.
+  # Configure the minimum logging level to emit in the `Project`
   project.log.minLevel = Logger::LEVELS.ERROR if argv.silent
   project.log.minLevel = Logger::LEVELS.DEBUG if argv.verbose
   project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
 
-  # Set up project-specific options as we get them.
+  # Configure the path to the language definition file
   project.options.languages = argv.languages
 
-  # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
-  # exclusions defined by `--except` before we add the result to the project's file list.
+  # Expand the `--glob` expressions into a poor man's set, so that we
+  # can easily remove exclusions defined by `--except` before we add
+  # the result to the project's file list.
   files = {}
   for globExpression in argv.glob
     files[file] = true for file in glob.sync path.resolve(argv.root, globExpression)
@@ -219,18 +237,15 @@ module.exports = CLI = (inputArgs, callback) ->
   for globExpression in argv.except
     delete files[file] for file in glob.sync path.resolve(argv.root, globExpression)
 
-  # There are several properties that we need to configure on a project before we can go ahead and
-  # generate its documentation.
+  # Configure several properties on a project before generating its
+  # documentation.
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
-  # `Project#generate` can take some options, such as which style to use.  Since we're generating
-  # differently depending on whether or not github is enabled, let's set those up now:
-  # If a style was passed in, but it isn't registered, try loading a module.
-  unless argv.style? and (style = styles[argv.style])?
-    try
-      style = require(argv.style) require './styles/default'
-    catch error
+  # Load the default style
+  try
+    style = require './styles/default'
+  catch error
 
   options =
     style: style

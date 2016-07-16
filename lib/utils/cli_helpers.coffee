@@ -21,7 +21,7 @@ module.exports = CLIHelpers =
   # configureOptimist opts, optionsConfig, projectConfig
   # ```
   #
-  # Configure [Optimist][1] to provide two tiers of defaults:
+  # Configure [Optimist][1] to provide two layers of defaults:
   #
   # 1. from the source code
   # 2. from the user's configuration file

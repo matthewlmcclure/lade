@@ -20,6 +20,7 @@ includes:
   - contributor/lib/utils/Logger/level_functions.md
   - contributor/lib/utils/Logger/emit.md
   - contributor/lib/utils/Logger/globalLogger.md
+  - contributor/lib/cli.md
 
 ---
 # MlmGroc Contributor Guide

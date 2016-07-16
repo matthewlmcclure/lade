@@ -3,17 +3,18 @@ target: user/index.html.md
 ---
 ---
 includes:
-  - cli/heading.md
-  - cli/help.md
-  - cli/glob.md
-  - cli/except.md
-  - cli/out.md
-  - cli/root.md
-  - cli/languages.md
-  - cli/silent.md
-  - cli/version.md
-  - cli/verbose.md
-  - cli/very_verbose.md
+  - user/configuration.md
+  - user/cli/heading.md
+  - user/cli/help.md
+  - user/cli/glob.md
+  - user/cli/except.md
+  - user/cli/out.md
+  - user/cli/root.md
+  - user/cli/languages.md
+  - user/cli/silent.md
+  - user/cli/version.md
+  - user/cli/verbose.md
+  - user/cli/very_verbose.md
 
 ---
 # MlmGroc User Guide
@@ -53,32 +54,4 @@ $ groc "lib/**/*.coffee" README.md
 
 By default, groc will put extracted documentation in a `doc` subfolder
 of your project.
-
-## Configuring groc
-
-MlmGroc can configure itself from a file as an alternative to using
-command-line arguments.
-
-Create a `.groc.json` file in your project root, where each key maps
-to an argument you would pass to the `groc` command.  File names and
-globs are defined as an array with the key `glob`.  For example,
-MlmGroc's own configuration is:
-
-```json
-{
-    "glob": [
-        "**/*.md",
-        "**/*.coffee",
-        ".groc.json",
-        "package.json"
-    ],
-    "except": [
-        "node_modules/**"
-    ],
-    "out": "./doc",
-}
-```
-
-If you invoke `groc` without any arguments, it will use your
-pre-defined configuration.
 
