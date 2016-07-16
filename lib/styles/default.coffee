@@ -69,32 +69,18 @@ module.exports = class Default
 
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 
-    # TODO: Consider removing parseDocTags and markdownDocTags. I
-    # think they might be unused.
-    Utils.parseDocTags segments, @project, (error) =>
-      @log.debug 'Entering parseDocTags callback'
+    # TODO: Consider removing markdownComments. I think it might
+    # be unused or degenerate since I've delegated groc's former
+    # responsibility for rendering Markdown to HTML to slate.
+    Utils.markdownComments segments, @project, (error) =>
+      @log.debug 'Entering markdownComments callback'
       if error
-        @log.error 'Failed to parse doc tags %s: %s\n', fileInfo.sourcePath, error.message, error.stack
+        @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
         return callback error
 
-      Utils.markdownDocTags segments, @project, (error) =>
-        @log.debug 'Entering markdownDocTags callback'
-        if error
-          @log.error 'Failed to markdown doc tags %s: %s\n', fileInfo.sourcePath, error.message, error.stack
-          return callback error
-
-        # TODO: Consider removing markdownComments. I think it might
-        # be unused or degenerate since I've delegated groc's former
-        # responsibility for rendering Markdown to HTML to slate.
-        Utils.markdownComments segments, @project, (error) =>
-          @log.debug 'Entering markdownComments callback'
-          if error
-            @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
-            return callback error
-
-          # TODO: Consider the possibility that splitSource and
-          # delegation to renderDocFile will be the only thing left.
-          @renderDocFile segments, fileInfo, callback
+      # TODO: Consider the possibility that splitSource and
+      # delegation to renderDocFile will be the only thing left.
+      @renderDocFile segments, fileInfo, callback
 
   # ---
   # target: includes/contributor/lib/styles/default/_renderDocFile.md

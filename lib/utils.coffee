@@ -11,7 +11,6 @@ YAML         = require 'yamljs'
 _        = require 'underscore'
 
 LANGUAGES            = null
-DOC_TAGS             = require './doc_tags'
 Logger               = require './utils/logger'
 
 
@@ -352,87 +351,6 @@ module.exports = Utils =
       @code     = code
       @comments = comments
       @foldMarker = foldMarker
-
-  parseDocTags: (segments, project, callback) ->
-    TAG_REGEX = /(?:^|\n)@(\w+)(?:\s+(.*))?/
-    TAG_VALUE_REGEX = /^(?:"(.*)"|'(.*)'|\{(.*)\}|(.*))$/
-
-    try
-      for segment, segmentIndex in segments when TAG_REGEX.test segment.comments.join('\n')
-        tags = []
-        currTag = {
-          name: 'description'
-          value: ''
-        }
-        tags.push currTag
-        tagSections = {}
-
-        for line in segment.comments when line?
-          if (match = line.match TAG_REGEX)?
-            currTag = {
-              name: match[1]
-              value: match[2] || ''
-            }
-            tags.push currTag
-          else
-            currTag.value += "\n#{line}"
-
-        for tag in tags
-          tag.value = tag.value.replace /^\n|\n$/g, ''
-
-          tagDefinition = DOC_TAGS[tag.name]
-
-          unless tagDefinition?
-            if tag.value.length == 0
-              tagDefinition = 'defaultNoValue'
-            else
-              tagDefinition = 'defaultHasValue'
-
-          if 'string' == typeof tagDefinition
-            tagDefinition = DOC_TAGS[tagDefinition]
-
-          tag.definition = tagDefinition
-          tag.section = tagDefinition.section
-
-          if tagDefinition.valuePrefix?
-            tag.value = tag.value.replace ///#{tagDefinition.valuePrefix?}\s+///, ''
-
-          if tagDefinition.parseValue?
-            tag.value = tagDefinition.parseValue tag.value
-          else if not /\n/.test tag.value
-            tag.value = tag.value.match(TAG_VALUE_REGEX)[1..].join('')
-
-          tagSections[tag.section] = [] unless tagSections[tag.section]?
-          tagSections[tag.section].push tag
-
-        segment.tags = tags
-        segment.tagSections = tagSections
-
-    catch error
-      return callback error
-
-    callback()
-
-  markdownDocTags: (segments, project, callback) ->
-    try
-      for segment, segmentIndex in segments when segment.tags?
-
-        for tag in segment.tags
-          if tag.definition.markdown?
-            if 'string' == typeof tag.definition.markdown
-              tag.markdown = tag.definition.markdown.replace /\{value\}/g, tag.value
-            else
-              tag.markdown = tag.definition.markdown(tag.value)
-          else
-            if tag.value.length > 0
-              tag.markdown = "#{tag.name} #{tag.value}"
-            else
-              tag.markdown = tag.name
-
-    catch error
-      return callback error
-
-    callback()
 
   markdownComments: (segments, project, callback) ->
     try

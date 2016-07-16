@@ -52,8 +52,7 @@ module.exports = LANGUAGES =
      * like the following in compiled javascript:
      *
      *     /**
-     *      * A sample comment, having a preceding whitespace per line. Useful
-     *      * to embed `@doctags` in javascript compiled from coffeescript.
+     *      * A sample comment, having a preceding whitespace per line.
      *      * <= COMBINE THESE TWO CHARS => /
      *
      * (The the final comment-mark above has been TWEAKED to not raise an error)
