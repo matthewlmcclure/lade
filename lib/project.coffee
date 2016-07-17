@@ -44,12 +44,12 @@ module.exports = class Project
   # Where the magic happens.
   #
   # Currently, the only supported option is:
-  generate: (options, callback) ->
-    @log.trace 'Project#Generate(%j, ...)', options
+  generate: (callback) ->
+    @log.trace 'Project#Generate(...)'
     @log.info 'Generating documentation...'
 
-    # * style: The style prototype to use.  Defaults to `styles.Default`
-    style = new (options.style || styles.Default) @
+    # * style: The style prototype to use.
+    style = new styles.Default @
 
     # We need to ensure that the project root is a strip prefix so that we properly generate
     # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,

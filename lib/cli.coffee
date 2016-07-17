@@ -242,15 +242,7 @@ module.exports = CLI = (inputArgs, callback) ->
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
-  # Load the default style
-  try
-    style = require './styles/default'
-  catch error
-
-  options =
-    style: style
-
-  project.generate options, (error) ->
+  project.generate (error) ->
     callback error
 
 # Local Variables:
