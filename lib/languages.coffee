@@ -77,38 +77,29 @@ module.exports = LANGUAGES =
 
   C:
     nameMatchers:      ['.c', '.h']
-    pygmentsLexer:     'c'
-    highlightJS:       'cpp'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   CSharp:
     nameMatchers:      ['.cs']
-    pygmentsLexer:     'csharp'
-    highlightJS:       'cs'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     
   CSS:
     nameMatchers:      ['.css']
-    pygmentsLexer:     'css'
     multiLineComment:  ['/*', '*', '*/']
 
   'C++':
     nameMatchers:      ['.cpp', '.hpp', '.c++', '.h++', '.cc', '.hh', '.cxx', '.hxx']
-    pygmentsLexer:     'cpp'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   Clojure:
     nameMatchers:      ['.clj', '.cljs']
-    pygmentsLexer:     'clojure'
     singleLineComment: [';;']
 
   CoffeeScript:
     nameMatchers:      ['.coffee', 'Cakefile']
-    pygmentsLexer:     'coffee-script'
-    highlightJS:       'coffeescript'
     # **CoffeScript's multi-line block-comment styles.**
 
     # - Variant 1:
@@ -163,13 +154,10 @@ module.exports = LANGUAGES =
 
   Go:
     nameMatchers:      ['.go']
-    pygmentsLexer:     'go'
     singleLineComment: ['//']
 
   Handlebars:
     nameMatchers:      ['.handlebars', '.hbs']
-    pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
-    highlightJS:       'handlebars'
     multiLineComment:  [
       '<!--', '', '-->', # HTML block comments go first, for code highlighting / segment splitting purposes
       '{{!',  '', '}}'   # Actual handlebars block comments
@@ -179,47 +167,38 @@ module.exports = LANGUAGES =
 
   Haskell:
     nameMatchers:      ['.hs']
-    pygmentsLexer:     'haskell'
     singleLineComment: ['--']
 
   HTML:
     nameMatchers:      ['.htm', '.html']
-    pygmentsLexer:     'html'
     multiLineComment:  ['<!--', '', '-->']
     
   Jade:
     nameMatchers:      ['.jade']
-    pygmentsLexer:     'jade'
     # @todo <https://github.com/isagalaev/highlight.js/pull/250>
-    highlightJS:       'AUTO'
     singleLineComment: ['//', '//-']
 
   Java:
     nameMatchers:      ['.java']
-    pygmentsLexer:     'java'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     multiLineComment:  ['/*', '*', '*/']
 
   JavaScript:
-    pygmentsLexer:     'javascript'
     nameMatchers:      ['.js', /^groc$/]
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   Jake:
     nameMatchers:      ['.jake']
-    pygmentsLexer:     'javascript'
     singleLineComment: ['//']
 
   JSON                :
     nameMatchers      : ['.json']
-    pygmentsLexer     : 'json'
     codeOnly          : true
 
   JSP:
     nameMatchers:      ['.jsp']
-    pygmentsLexer:     'jsp'
     multiLineComment:  [
       '<!--', '', '-->',
       '<%--', '', '--%>'
@@ -228,109 +207,81 @@ module.exports = LANGUAGES =
 
   LaTeX:
     nameMatchers:      ['.tex', '.latex', '.sty']
-    pygmentsLexer:     'latex'
-    highlightJS:       'tex'
     singleLineComment: ['%']
 
   LESS:
     nameMatchers:      ['.less']
-    pygmentsLexer:     'sass' # TODO: is there a less lexer? No. Maybe in the future.
-    highlightJS:       'scss'
     singleLineComment: ['//']
 
   LiveScript:
     nameMatchers:       ['.ls', 'Slakefile']
-    pygmentsLexer:      'livescript'
     multiLineComment:   ['/*', '*', '*/']
     singleLineComment:  ['#']
 
   Lua:
     nameMatchers:      ['.lua']
-    pygmentsLexer:     'lua'
     singleLineComment: ['--']
 
   Make:
     nameMatchers:      ['Makefile']
-    pygmentsLexer:     'make'
     singleLineComment: ['#']
 
   Mustache:
     nameMatchers:      ['.mustache']
-    pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
-    highlightJS:       'handlebars'
     multiLineComment:  ['{{!', '', '}}']
 
   'Objective-C':
     nameMatchers:      ['.m', '.mm']
-    pygmentsLexer:     'objc'
-    highlightJS:       'objectivec'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   Perl:
     nameMatchers:      ['.pl', '.pm']
-    pygmentsLexer:     'perl'
     singleLineComment: ['#']
 
   PHP:
     nameMatchers:      [/\.php\d?$/, '.fbp']
-    pygmentsLexer:     'php'
     singleLineComment: ['//']
 
   Puppet:
     nameMatchers:      ['.pp']
-    pygmentsLexer:     'puppet'
-    highlightJS:       'AUTO'
     singleLineComment: ['#']
 
   Python:
     nameMatchers:      ['.py']
-    pygmentsLexer:     'python'
     singleLineComment: ['#']
 
   Ruby:
     nameMatchers:      ['.rb', '.ru', '.gemspec']
-    pygmentsLexer:     'ruby'
     singleLineComment: ['#']
 
   Sass:
     nameMatchers:      ['.sass']
-    pygmentsLexer:     'sass'
-    highlightJS:       'AUTO'
     singleLineComment: ['//']
 
   SCSS:
     nameMatchers:      ['.scss']
-    pygmentsLexer:     'scss'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   Shell:
     nameMatchers:      ['.sh']
-    pygmentsLexer:     'sh'
-    highlightJS:       'bash'
     singleLineComment: ['#']
 
   SQL:
     nameMatchers:      ['.sql']
-    pygmentsLexer:     'sql'
     singleLineComment: ['--']
 
   Swift:
     nameMatchers:      ['.swift']
-    pygmentsLexer:     'swift'
-    highlightJS:       'swift'
     singleLineComment: ['//']
     multiLineComment:  ['/*', '*', '*/']
 
   TypeScript:
     nameMatchers:      ['.ts']
-    pygmentsLexer:     'ts'
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 
   YAML:
     nameMatchers:      ['.yml', '.yaml']
-    pygmentsLexer:     'yaml'
-    highlightJS:       'AUTO'
     singleLineComment: ['#']
