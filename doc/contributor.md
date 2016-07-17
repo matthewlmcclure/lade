@@ -20,6 +20,12 @@ includes:
   - contributor/lib/utils/Logger/level_functions.md
   - contributor/lib/utils/Logger/emit.md
   - contributor/lib/utils/Logger/globalLogger.md
+  - contributor/lib/utils.md
+  - contributor/lib/utils/regexpEscapePattern.md
+  - contributor/lib/utils/regexpEscapeReplace.md
+  - contributor/lib/utils/regexpEscape.md
+  - contributor/lib/utils/Segment.md
+  - contributor/lib/utils/preprocessComments.md
   - contributor/lib/cli.md
   - contributor/lib/languages.md
   - contributor/lib/project.md

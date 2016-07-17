@@ -14,15 +14,59 @@ LANGUAGES            = null
 Logger               = require './utils/logger'
 
 
+# ---
+# target: includes/contributor/lib/_utils.md
+# ---
+# ## `Utils`
+#
+# Utility functions
 module.exports = Utils =
 
-  # Code from <http://zetafleet.com/>
-  # via <http://blog.simonwillison.net/post/57956816139/escape>
+  # ---
+  # target: includes/contributor/lib/utils/_regexpEscapePattern.md
+  # ---
+  #
+  # ### `regexpEscapePattern`
+  #
+  # A regular expression matching a class of regular expression
+  # metacharacters
   regexpEscapePattern : /[-[\]{}()*+?.,\\^$|#\s]/g
+  # ---
+  # target: includes/contributor/lib/utils/_regexpEscapeReplace.md
+  # ---
+  #
+  # ### `regexpEscapeReplace`
+  #
+  # A replacement that escapes a matched character with `\`
   regexpEscapeReplace : '\\$&'
 
-  # Escape regular expression characters in a String, an Array of Strings or
-  # any Object having a proper toString-method
+  # ---
+  # target: includes/contributor/lib/utils/_regexpEscape.md
+  # ---
+  # ### `regexpEscape`
+  #
+  # ```coffeescript
+  # regexpEscape "a string"
+  # regexpEscape ["an", "array", "of", "strings"]
+  # ```
+  #
+  # Escape regular expression characters in a String, an Array of
+  # Strings or any Object having a proper toString-method
+  #
+  # #### Parameters
+  #
+  # * `obj`: a string, array of strings, or object having a `toString`
+  #          method
+  #
+  # #### Result
+  #
+  # A transformed `obj`, in which characters in `regexpEscapePattern`
+  # have been escaped according to `regexpEscapeReplace`.
+  #
+  # #### Credit
+  #
+  # Adapted from the solution at
+  # <http://blog.simonwillison.net/post/57956816139/escape>
   regexpEscape: (obj) ->
     if _.isArray obj
       _.invoke(obj, 'replace', @regexpEscapePattern, @regexpEscapeReplace)
@@ -316,13 +360,13 @@ module.exports = Utils =
     segments
 
   # ---
-  # target: includes/contributor/utils/_Segment.md
+  # target: includes/contributor/lib/utils/_Segment.md
   # ---
-  # ## `Segment`
+  # ### `Segment`
   #
   # A container to hold code lines and corresponding comment lines
   #
-  # ### Attributes
+  # #### Attributes
   #
   # * `code`: array of source code lines
   # * `comments`: array of comment lines
@@ -332,9 +376,9 @@ module.exports = Utils =
       @comments = comments
 
   # ---
-  # target: includes/contributor/utils/_preprocessComments.md
+  # target: includes/contributor/lib/utils/_preprocessComments.md
   # ---
-  # ## `preprocessComments`
+  # ### `preprocessComments`
   #
   # Preprocess comment `Segment` objects.
   #
@@ -344,13 +388,13 @@ module.exports = Utils =
   # Input `Segment` objects are modified by adding `targetPath` and
   # `plainComments` attributes.
   #
-  # ### Parameters
+  # #### Parameters
   #
   # * `segments`: array of `Segment` objects
   # * `project`: `Project` to use
   # * `callback`: function to call on completion
   #
-  # ### Result
+  # #### Result
   #
   # None
   preprocessComments: (segments, project, callback) ->
