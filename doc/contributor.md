@@ -22,6 +22,9 @@ includes:
   - contributor/lib/utils/Logger/globalLogger.md
   - contributor/lib/cli.md
   - contributor/lib/languages.md
+  - contributor/lib/project.md
+  - contributor/lib/project/constructor.md
+  - contributor/lib/project/generate.md
 
 ---
 # MlmGroc Contributor Guide

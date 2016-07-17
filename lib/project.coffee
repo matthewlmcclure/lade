@@ -1,5 +1,3 @@
-# # groc API
-
 fs   = require 'fs'
 path = require 'path'
 
@@ -10,26 +8,61 @@ Utils                = require './utils'
 styles               = require './styles'
 
 
-# A core concept of `groc` is that your code is grouped into a project, and that there is a certain
-# amount of context that it lends to your documentation.
+# ---
+# target: includes/contributor/lib/_project.md
+# ---
+# ## `Project`
 #
-# A project:
+# A `Project` represents a container that refers to input source files
+# and output documentation files.
 module.exports = class Project
+  # ---
+  # target: includes/contributor/lib/project/_constructor.md
+  # ---
+  # ### `constructor`
+  #
+  # ```coffeescript
+  # project = new Project root, out
+  # ```
+  #
+  # Create a new `Project` instance.
+  #
+  # #### Parameters
+  #
+  # * `root`: filesystem path of directory containing input source
+  #           files
+  # * `outPath`: filesystem path of destination directory for output
+  #              documentation files
+  # * `minLogLevel`: minimum `Logger` level to emit
+  #
+  # #### Result
+  #
+  # A `Project` instance
   constructor: (root, outPath, minLogLevel=Logger::INFO) ->
     @options = {}
     @log     = new Logger minLogLevel
 
     # * Has a single root directory that contains (most of) it.
     @root = path.resolve root
-    # * Generally wants documented generated somewhere within its tree.  We default the output path
-    #   to be relative to the project root, unless you pass an absolute path.
+    # * Generally wants documented generated somewhere within its
+    #   tree.  We default the output path to be relative to the
+    #   project root, unless you pass an absolute path.
     @outPath = path.resolve @root, outPath
-    # * Contains a set of files to generate documentation from, source code or otherwise.
+    # * Contains a set of files to generate documentation from, source
+    #   code or otherwise.
     @files = []
-    # * Should strip specific prefixes of a file's path when generating relative paths for
-    #   documentation.  For example, this could be used to ensure that `lib/some/source.file` maps
+
+    # TODO: Consider if `stripPrefixes` is obsolete. Remove it if so.
+
+    # * Should strip specific prefixes of a file's path when
+    #   generating relative paths for documentation.  For example,
+    #   this could be used to ensure that `lib/some/source.file` maps
     #   to `doc/some/source.file` and not `doc/lib/some/source.file`.
     @stripPrefixes = []
+
+  # TODO: Try concurrent file processing.
+
+  # TODO: Simplify by dropping support for old versions of Node.
 
   # Annoyingly, we seem to be hitting a race condition within Node 0.10's
   # emulation for old-style streams.  For now, we're dropping concurrent doc
@@ -41,9 +74,24 @@ module.exports = class Project
   # accomplishes.
   BATCH_SIZE: if oldNode then 10 else 1
 
-  # Where the magic happens.
+  # ---
+  # target: includes/contributor/lib/project/_generate.md
+  # ---
+  # ### `generate`
   #
-  # Currently, the only supported option is:
+  # ```coffeescript
+  # generate (error) ->
+  #   ...
+  # ```
+  # Extract output documentation from input source files
+  #
+  # #### Parameters
+  #
+  # * `callback`: function to call on completion
+  #
+  # #### Result
+  #
+  # None
   generate: (callback) ->
     @log.trace 'Project#Generate(...)'
     @log.info 'Generating documentation...'
@@ -51,9 +99,10 @@ module.exports = class Project
     # * style: The style prototype to use.
     style = new styles.Default @
 
-    # We need to ensure that the project root is a strip prefix so that we properly generate
-    # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
-    # so that they can strip from the remainder.
+    # We need to ensure that the project root is a strip prefix so
+    # that we properly generate relative paths for our files.  Since
+    # strip prefixes are relative, it must be the first prefix, so
+    # that they can strip from the remainder.
     @stripPrefixes = [@root + path.sep].concat @stripPrefixes
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
@@ -91,3 +140,7 @@ module.exports = class Project
         @log.info ''
         @log.pass 'Documentation generated'
         callback()
+
+# Local Variables:
+# coffee-tab-width: 2
+# End:
