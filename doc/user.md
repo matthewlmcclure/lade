@@ -15,6 +15,7 @@ includes:
   - user/cli/version.md
   - user/cli/verbose.md
   - user/cli/very_verbose.md
+  - user/languages.md
 
 ---
 # MlmGroc User Guide

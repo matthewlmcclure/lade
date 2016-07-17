@@ -21,6 +21,7 @@ includes:
   - contributor/lib/utils/Logger/emit.md
   - contributor/lib/utils/Logger/globalLogger.md
   - contributor/lib/cli.md
+  - contributor/lib/languages.md
 
 ---
 # MlmGroc Contributor Guide

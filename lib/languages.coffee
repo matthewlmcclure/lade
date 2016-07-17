@@ -1,4 +1,74 @@
-# # Supported Languages
+# ---
+# target: includes/user/_languages.md
+# ---
+# ## Source File Types
+#
+# MlmGroc can extract documentation from the following source file types:
+#
+# * C
+# * C++
+# * CSS
+# * CSharp
+# * Clojure
+# * CoffeeScript
+# * Go
+# * HTML
+# * Handlebars
+# * Haskell
+# * JSON
+# * JSP
+# * Jade
+# * Jake
+# * Java
+# * JavaScript
+# * LESS
+# * LaTeX
+# * LiveScript
+# * Lua
+# * Make
+# * Markdown
+# * Mustache
+# * Objective-C
+# * PHP
+# * Perl
+# * Puppet
+# * Python
+# * Ruby
+# * SCSS
+# * SQL
+# * Sass
+# * Shell
+# * Swift
+# * TypeScript
+# * YAML
+
+# ---
+# target: includes/contributor/lib/_languages.md
+# ---
+#
+# ## Source File Types
+#
+# Refer to the user documentation for a list of supported source file
+# types. Contributors can configure new source file types in
+# `lib/languages.coffee`.
+#
+# Each configured source file type has the following attributes:
+#
+# Attribute | Type | Description | Required?
+# --------- | ---- | ----------- | ---------
+# nameMatchers | list of strings | File name extensions | required
+# singleLineComment | list of strings | List of character sequences that introduce a single line comment | optional
+# multiLineComment | list of 3 strings | 3-tuple of block comment starting character sequence, intra-block-comment line prefix, ending sequence | optional
+# commentsOnly | boolean | Indicates if the source file type contains only comments and no source code | optional
+# codeOnly | boolean | Indicates if the source file type contains only source code and no comments | optional
+# strictMultiLineEnd | boolean | Indicates if block comments of differing syntaxes can be nested | optional
+
+# TODO: Provide to users the capability to configure new languages via
+# JSON or YAML.
+
+# TODO: Consider if strictMultiLineEnd is an unnecessary hack,
+# possibly suggestive of problems present in parsing nested block
+# comments.
 
 module.exports = LANGUAGES =
   Markdown:
