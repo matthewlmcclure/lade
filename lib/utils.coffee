@@ -354,10 +354,6 @@ module.exports = Utils =
 
     callback()
 
-  # Sometimes you just don't want any of them hanging around.
-  trimBlankLines: (string) ->
-    string.replace(/^[\r\n]+/, '').replace(/[\r\n]+$/, '')
-
   # Given a title, convert it into a URL-friendly slug.
   slugifyTitle: (string) ->
     string.split(/[\s\-\_]+/).map( (s) -> s.replace(/[^\w]/g, '').toLowerCase() ).join '-'
