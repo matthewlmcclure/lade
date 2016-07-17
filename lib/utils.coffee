@@ -381,25 +381,6 @@ module.exports = Utils =
 
     callback()
 
-  # Given a title, convert it into a URL-friendly slug.
-  slugifyTitle: (string) ->
-    string.split(/[\s\-\_]+/).map( (s) -> s.replace(/[^\w]/g, '').toLowerCase() ).join '-'
-
-  # replacer is a function that is given the match object, and returns the string to replace with.
-  gsub: (string, matcher, replacer) ->
-    throw new Error 'You must pass a global RegExp to gsub!' unless matcher.global?
-
-    result = ''
-    matcher.lastIndex = 0
-    furthestIndex = 0
-
-    while (match = matcher.exec string) != null
-      result += string[furthestIndex...match.index] + replacer match
-
-      furthestIndex = matcher.lastIndex
-
-    result + string[furthestIndex...]
-
 # Local Variables:
 # coffee-tab-width: 2
 # End:
