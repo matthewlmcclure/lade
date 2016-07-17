@@ -132,8 +132,8 @@ module.exports = LANGUAGES =
     multiLineComment:  ['/*', '*', '*/']
 
   JavaScript:
-    nameMatchers:      ['.js']
     pygmentsLexer:     'javascript'
+    nameMatchers:      ['.js', /^groc$/]
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 

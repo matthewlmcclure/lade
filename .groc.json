@@ -9,6 +9,5 @@
     "except": [
         "node_modules/**"
     ],
-    "languages": "lib/languages_groc.coffee",
     "out": "./build/doc"
 }
