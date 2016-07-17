@@ -182,8 +182,6 @@ module.exports = Utils =
       aEmptyLine = ///^\s*(?:#{blockLines})$///
 
     inBlock   = false
-    inFolded  = false
-    inIgnored = false
 
     # Variables used in temporary assignments have been collected here for
     # documentation purposes only.
@@ -220,7 +218,6 @@ module.exports = Utils =
         else if currSegment.code.length > 0
           segments.push currSegment
           currSegment   = new @Segment
-          inFolded      = false
 
       # This flag is triggered above.
       if inBlock
@@ -228,8 +225,7 @@ module.exports = Utils =
         # Catch all lines, unless there is a `blockline` from above.
         blockline = line unless blockline?
 
-        # Match a block-comment's end, even when `inFolded or inIgnored` flags
-        # are true …
+        # Match a block-comment's end
         if (match = blockline.match aBlockEnd)?
 
           # Reusing `match` as a placeholder.
@@ -241,10 +237,10 @@ module.exports = Utils =
             ### Ensure to leave the block-comment, especially single-lines like this one. ###
             inBlock = false
 
-            blockline = blockline.replace aBlockEnd, '' unless (inFolded or inIgnored)
+            blockline = blockline.replace aBlockEnd, ''
 
-        # Match a block-comment's line, when `inFolded or inIgnored` are false.
-        if not (inFolded or inIgnored) and (match = blockline.match aBlockLine)?
+        # Match a block-comment's line
+        if (match = blockline.match aBlockLine)?
 
           # Reusing `match` as a placeholder.
           [match, linemark, space, comment] = match
@@ -256,54 +252,34 @@ module.exports = Utils =
 
           blockline = comment
 
-        if inIgnored
-          currSegment.code.push line
+        # The previous cycle contained code, so lets start a new segment.
+        if currSegment.code.length > 0
+          segments.push currSegment
+          currSegment = new @Segment
 
-          # Make sure that the next cycle starts fresh,
-          # if we are going to leave the block.
-          inIgnored = false if not inBlock
+        # A special case as described in the initialization of `aEmptyLine`.
+        if aEmptyLine.test line
+          currSegment.comments.push ""
 
         else
+          ###
+          Collect all but empty start- and end-block-comment lines, hence
+          single-line block-comments simultaneous matching `aBlockStart`
+          and `aBlockEnd` have a false `inBlock` flag at this point, are
+          included.
+          ###
+          if not /^\s*$/.test(blockline) or (inBlock and not aBlockStart.test line)
+            # Strip leading `indention` from block-comment like the one above
+            # to align their content with the initial blockmark.
+            if indention? and indention isnt '' and not aBlockLine.test line
+              blockline = blockline.replace ///^#{indention}///, ''
 
-          if inFolded
+            currSegment.comments.push blockline
 
-            # If the foldMarker is empty assign `blockline` to `foldMarker` …
-            if currSegment.foldMarker is ''
-              currSegment.foldMarker = line
-
-            # … and collect the `blockline` as code.
-            currSegment.code.push line
-
-          else
-
-            # The previous cycle contained code, so lets start a new segment.
-            if currSegment.code.length > 0
-              segments.push currSegment
-              currSegment = new @Segment
-
-            # A special case as described in the initialization of `aEmptyLine`.
-            if aEmptyLine.test line
-              currSegment.comments.push ""
-
-            else
-              ###
-              Collect all but empty start- and end-block-comment lines, hence
-              single-line block-comments simultaneous matching `aBlockStart`
-              and `aBlockEnd` have a false `inBlock` flag at this point, are
-              included.
-              ###
-              if not /^\s*$/.test(blockline) or (inBlock and not aBlockStart.test line)
-                # Strip leading `indention` from block-comment like the one above
-                # to align their content with the initial blockmark.
-                if indention? and indention isnt '' and not aBlockLine.test line
-                  blockline = blockline.replace ///^#{indention}///, ''
-
-                currSegment.comments.push blockline
-
-              # The `code` may occure immediatly after a block-comment end.
-              if code?
-                currSegment.code.push code unless inBlock # fool-proof ?
-                code = null
+          # The `code` may occure immediatly after a block-comment end.
+          if code?
+            currSegment.code.push code unless inBlock # fool-proof ?
+            code = null
 
         # Make sure the next cycle starts fresh.
         blockline = null
@@ -325,7 +301,6 @@ module.exports = Utils =
           if currSegment.code.length > 0
             segments.push currSegment
             currSegment   = new @Segment
-            inFolded      = false
 
           currSegment.comments.push comment
 
