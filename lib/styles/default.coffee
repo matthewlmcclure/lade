@@ -69,17 +69,12 @@ module.exports = class Default
 
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 
-    # TODO: Consider removing markdownComments. I think it might
-    # be unused or degenerate since I've delegated groc's former
-    # responsibility for rendering Markdown to HTML to slate.
-    Utils.markdownComments segments, @project, (error) =>
-      @log.debug 'Entering markdownComments callback'
+    Utils.preprocessComments segments, @project, (error) =>
+      @log.debug 'Entering preprocessComments callback'
       if error
-        @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
+        @log.error 'Failed to preprocess %s: %s', fileInfo.sourcePath, error.message
         return callback error
 
-      # TODO: Consider the possibility that splitSource and
-      # delegation to renderDocFile will be the only thing left.
       @renderDocFile segments, fileInfo, callback
 
   # ---

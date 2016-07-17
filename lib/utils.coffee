@@ -331,7 +331,29 @@ module.exports = Utils =
       @code     = code
       @comments = comments
 
-  markdownComments: (segments, project, callback) ->
+  # ---
+  # target: includes/contributor/utils/_preprocessComments.md
+  # ---
+  # ## `preprocessComments`
+  #
+  # Preprocess comment `Segment` objects.
+  #
+  # Extract a target path from comment front matter. Assemble the
+  # array of comment lines into a multi-line comment text string.
+  #
+  # Input `Segment` objects are modified by adding `targetPath` and
+  # `plainComments` attributes.
+  #
+  # ### Parameters
+  #
+  # * `segments`: array of `Segment` objects
+  # * `project`: `Project` to use
+  # * `callback`: function to call on completion
+  #
+  # ### Result
+  #
+  # None
+  preprocessComments: (segments, project, callback) ->
     try
       for segment, segmentIndex in segments
         commentLineIndex = 1
