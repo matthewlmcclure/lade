@@ -322,10 +322,9 @@ module.exports = Utils =
   #
   # A container to hold code lines and corresponding comment lines
   Segment: class Segment
-    constructor: (code=[], comments=[], foldMarker='') ->
+    constructor: (code=[], comments=[]) ->
       @code     = code
       @comments = comments
-      @foldMarker = foldMarker
 
   markdownComments: (segments, project, callback) ->
     try

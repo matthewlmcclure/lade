@@ -152,9 +152,6 @@ module.exports = class Default
             @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
             return callback error
 
-          # TODO: Learn what fold markers are. Consider removing them.
-          segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
-
           try
             # TODO: Consider changing plainComments name to simply
             # comments. It is named plainComments to distinguish it
