@@ -321,6 +321,11 @@ module.exports = Utils =
   # ## `Segment`
   #
   # A container to hold code lines and corresponding comment lines
+  #
+  # ### Attributes
+  #
+  # * `code`: array of source code lines
+  # * `comments`: array of comment lines
   Segment: class Segment
     constructor: (code=[], comments=[]) ->
       @code     = code
