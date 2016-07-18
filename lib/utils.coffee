@@ -1,8 +1,4 @@
-###
-Miscellaneous code fragments reside here.
-
-TODO: should be migrated into `lib/utils`.
-###
+# TODO: should be migrated into `lib/utils`.
 
 childProcess = require 'child_process'
 path         = require 'path'
