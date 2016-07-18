@@ -105,9 +105,9 @@ module.exports = class Project
     # that they can strip from the remainder.
     @stripPrefixes = [@root + path.sep].concat @stripPrefixes
 
-    fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
+    files = @files.map (f) -> path.resolve @root, f
 
-    pool = spate.pool (k for k of fileMap), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
+    pool = spate.pool (files[k] for k of files), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
       @log.debug "Processing %s", currentFile
 
       language = Utils.getLanguage currentFile, @options.languages
@@ -119,10 +119,6 @@ module.exports = class Project
         language:    language
         sourcePath:  currentFile
         projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + path.sep}///, ''
-        targetPath:  fileMap[currentFile]
-        pageTitle:   fileMap[currentFile]
-
-      targetFullPath = path.resolve @outPath, "#{fileInfo.targetPath}.html"
 
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error

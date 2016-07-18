@@ -100,35 +100,6 @@ module.exports = Utils =
     for pair in @_languageDetectionCache
       return pair[1] if baseName.match pair[0]
 
-  # Map a list of file paths to relative target paths by stripping prefixes.
-  mapFiles: (resolveRoot, files, stripPrefixes) ->
-    # Ensure that we're dealing with absolute paths across the board.
-    files = files.map (f) -> path.resolve resolveRoot, f
-
-    # And that the strip prefixes all end with a /, avoids absolute target path.
-    stripPrefixes = stripPrefixes.map (p) ->
-      path.join "#{path.resolve resolveRoot, p}#{path.sep}"
-
-    # Prefixes are stripped in the order of most specific to least
-    # (# of directories deep)
-    prefixes = stripPrefixes.sort (a,b) => @pathDepth(b) - @pathDepth(a)
-
-    result = {}
-
-    for absPath in files
-      file = absPath
-
-      for stripPath in stripPrefixes
-        if file[0...stripPath.length] is stripPath
-          file = file[stripPath.length..]
-
-      # We also strip the extension under the assumption that the consumer of
-      # this path map is going to substitute in their own.  Plus, if they care
-      # about the extension, they can get it from the keys of the map.
-      result[absPath] = if not path.extname(file) then file else file[0...-path.extname(file).length]
-
-    result
-
   # How many directories deep is a given path?
   pathDepth: (path) ->
     path.split(/[\/\\]/).length
