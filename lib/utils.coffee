@@ -114,11 +114,27 @@ module.exports = Utils =
     for pair in @_languageDetectionCache
       return pair[1] if baseName.match pair[0]
 
-  # How many directories deep is a given path?
-  pathDepth: (path) ->
-    path.split(/[\/\\]/).length
-
-  # Split source code into segments (comment + code pairs)
+  # ---
+  # target: includes/contributor/lib/utils/_splitSource.md
+  # ---
+  # ### `splitSource`
+  #
+  # ```coffeescript
+  # segments = Utils.splitSource data, language
+  # ```
+  #
+  # Split `data` in a given `language` into an array of `Segment`
+  # objects
+  #
+  # #### Parameters
+  #
+  # * `data`: source text as a multi-line string
+  # * `language`: `Language` object corresponding to the source file type of `data`
+  #
+  # #### Result
+  #
+  # Array of `Segment` objects, each containing source code or comment
+  # lines
   splitSource: (data, language) ->
     lines = data.split /\r?\n/
 

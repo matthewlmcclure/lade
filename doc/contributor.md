@@ -25,6 +25,7 @@ includes:
   - contributor/lib/utils/regexpEscapeReplace.md
   - contributor/lib/utils/regexpEscape.md
   - contributor/lib/utils/getLanguage.md
+  - contributor/lib/utils/splitSource.md
   - contributor/lib/utils/Segment.md
   - contributor/lib/utils/preprocessComments.md
   - contributor/lib/cli.md
