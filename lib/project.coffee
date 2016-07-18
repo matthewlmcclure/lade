@@ -5,7 +5,7 @@ spate = require 'spate'
 
 Logger               = require './utils/logger'
 Utils                = require './utils'
-Default              = require './styles/default'
+Renderer             = require './renderer'
 
 
 # ---
@@ -96,8 +96,8 @@ module.exports = class Project
     @log.trace 'Project#Generate(...)'
     @log.info 'Generating documentation...'
 
-    # * style: The style prototype to use.
-    style = new Default @
+    # * renderer: The renderer prototype to use.
+    renderer = new Renderer @
 
     # We need to ensure that the project root is a strip prefix so
     # that we properly generate relative paths for our files.  Since
@@ -125,12 +125,12 @@ module.exports = class Project
           @log.error "Failed to process %s: %s", currentFile, error.message
           return callback error
 
-        style.renderFile data, fileInfo, done
+        renderer.renderFile data, fileInfo, done
 
     pool.exec (error) =>
       return callback error if error
 
-      style.renderCompleted (error) =>
+      renderer.renderCompleted (error) =>
         return callback error if error
 
         @log.info ''

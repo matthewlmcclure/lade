@@ -5,5 +5,5 @@ module.exports = {
   CLI:          require('./lib/cli'),
   LANGUAGES:    require('./lib/languages'),
   Project:      require('./lib/project'),
-  Default:      require('./lib/styles/Default')
+  Renderer:      require('./lib/renderer')
 };

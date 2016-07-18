@@ -3,26 +3,27 @@ path = require 'path'
 
 fsTools = require 'fs-tools'
 
-Utils        = require '../utils'
+Utils        = require './utils'
 
 
 # ---
-# target: includes/contributor/lib/styles/_default.md
+# target: includes/contributor/lib/_renderer.md
 # ---
-# ## `Default`
+# ## `Renderer`
 #
-# The default rendering style
-module.exports = class Default
+# A `Renderer` handles rendering extracted documentation to
+# destination files.
+module.exports = class Renderer
   # ---
-  # target: includes/contributor/lib/styles/default/_constructor.md
+  # target: includes/contributor/lib/renderer/_constructor.md
   # ---
   # ### `constructor`
   #
   # ```coffeescript
-  # new Default project
+  # new Renderer project
   # ```
   #
-  # Create a new `Default` instance.
+  # Create a new `Renderer` instance.
   #
   # #### Parameters
   #
@@ -30,7 +31,7 @@ module.exports = class Default
   #
   # #### Result
   #
-  # A `Default` instance
+  # A `Renderer` instance
   constructor: (project) ->
     @project = project
     @log     = project.log
@@ -38,7 +39,7 @@ module.exports = class Default
     @outline = {} # Keyed on target path
 
   # ---
-  # target: includes/contributor/lib/styles/default/_renderFile.md
+  # target: includes/contributor/lib/renderer/_renderFile.md
   # ---
   # ### `renderFile`
   #
@@ -61,7 +62,7 @@ module.exports = class Default
   #
   # None
   renderFile: (data, fileInfo, callback) ->
-    @log.trace 'DefaultStyle#renderFile(..., %j, ...)', fileInfo
+    @log.trace 'Renderer#renderFile(..., %j, ...)', fileInfo
 
     @files.push fileInfo
 
@@ -78,7 +79,7 @@ module.exports = class Default
       @renderDocFile segments, fileInfo, callback
 
   # ---
-  # target: includes/contributor/lib/styles/default/_renderDocFile.md
+  # target: includes/contributor/lib/renderer/_renderDocFile.md
   # ---
   # ### `renderDocFile`
   #
@@ -101,7 +102,7 @@ module.exports = class Default
   #
   # None
   renderDocFile: (segments, fileInfo, callback) ->
-    @log.trace 'DefaultStyle#renderDocFile(..., %j, ...)', fileInfo
+    @log.trace 'Renderer#renderDocFile(..., %j, ...)', fileInfo
 
     countFinished = 0
     for segment in segments
@@ -114,7 +115,7 @@ module.exports = class Default
           callback()
 
   # ---
-  # target: includes/contributor/lib/styles/default/_renderSegment.md
+  # target: includes/contributor/lib/renderer/_renderSegment.md
   # ---
   # ### `renderSegment`
   #
@@ -167,7 +168,7 @@ module.exports = class Default
       callback()
 
   # ---
-  # target: includes/contributor/lib/styles/default/_writeDocFile.md
+  # target: includes/contributor/lib/renderer/_writeDocFile.md
   # ---
   # ### `writeDocFile`
   #
@@ -200,7 +201,7 @@ module.exports = class Default
       callback()
 
   # ---
-  # target: includes/contributor/lib/styles/default/_renderCompleted.md
+  # target: includes/contributor/lib/renderer/_renderCompleted.md
   # ---
   # ### `renderCompleted`
   #
@@ -218,7 +219,7 @@ module.exports = class Default
   #
   # None
   renderCompleted: (callback) ->
-    @log.trace 'DefaultStyle#renderCompleted(...)'
+    @log.trace 'Renderer#renderCompleted(...)'
 
     callback()
 

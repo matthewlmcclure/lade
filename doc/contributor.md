@@ -4,13 +4,13 @@ target: contributor/index.html.md
 ---
 includes:
   - contributor/internals/bin/groc.md
-  - contributor/lib/styles/default.md
-  - contributor/lib/styles/default/constructor.md
-  - contributor/lib/styles/default/renderFile.md
-  - contributor/lib/styles/default/renderDocFile.md
-  - contributor/lib/styles/default/renderSegment.md
-  - contributor/lib/styles/default/writeDocFile.md
-  - contributor/lib/styles/default/renderCompleted.md
+  - contributor/lib/renderer.md
+  - contributor/lib/renderer/constructor.md
+  - contributor/lib/renderer/renderFile.md
+  - contributor/lib/renderer/renderDocFile.md
+  - contributor/lib/renderer/renderSegment.md
+  - contributor/lib/renderer/writeDocFile.md
+  - contributor/lib/renderer/renderCompleted.md
   - contributor/lib/utils/CLIHelpers.md
   - contributor/lib/utils/CLIHelpers/configureOptimist.md
   - contributor/lib/utils/CLIHelpers/extractArgv.md
