@@ -4,6 +4,10 @@ target: contributor/index.html.md
 ---
 includes:
   - contributor/internals/bin/groc.md
+  - contributor/lib/cli.md
+  - contributor/lib/project.md
+  - contributor/lib/project/constructor.md
+  - contributor/lib/project/generate.md
   - contributor/lib/renderer.md
   - contributor/lib/renderer/constructor.md
   - contributor/lib/renderer/renderFile.md
@@ -11,6 +15,7 @@ includes:
   - contributor/lib/renderer/renderSegment.md
   - contributor/lib/renderer/writeDocFile.md
   - contributor/lib/renderer/renderCompleted.md
+  - contributor/lib/languages.md
   - contributor/lib/utils/CLIHelpers.md
   - contributor/lib/utils/CLIHelpers/configureOptimist.md
   - contributor/lib/utils/CLIHelpers/extractArgv.md
@@ -28,11 +33,6 @@ includes:
   - contributor/lib/utils/splitSource.md
   - contributor/lib/utils/Segment.md
   - contributor/lib/utils/preprocessComments.md
-  - contributor/lib/cli.md
-  - contributor/lib/languages.md
-  - contributor/lib/project.md
-  - contributor/lib/project/constructor.md
-  - contributor/lib/project/generate.md
 
 ---
 # MlmGroc Contributor Guide
