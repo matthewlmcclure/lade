@@ -5,7 +5,7 @@ spate = require 'spate'
 
 Logger               = require './utils/logger'
 Utils                = require './utils'
-styles               = require './styles'
+Default              = require './styles/default'
 
 
 # ---
@@ -97,7 +97,7 @@ module.exports = class Project
     @log.info 'Generating documentation...'
 
     # * style: The style prototype to use.
-    style = new styles.Default @
+    style = new Default @
 
     # We need to ensure that the project root is a strip prefix so
     # that we properly generate relative paths for our files.  Since
