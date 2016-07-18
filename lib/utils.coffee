@@ -75,10 +75,28 @@ module.exports = Utils =
     else
       @regexpEscape "#{obj}"
 
-  # Detect and return the language that a given file is written in.
+  # ---
+  # target: includes/contributor/lib/utils/_getLanguage.md
+  # ---
+  # ### `getLanguage`
+  #
+  # ```coffeescript
+  # getLanguage file, languages
+  # ```
+  #
+  # Detect the language that a given file is written in
   #
   # The language is also annotated with a name property, matching the language's
   # key in LANGUAGES.
+  #
+  # #### Parameters
+  #
+  # * `filePath`: filesystem path of file containing language to detect
+  # * `languageDefinitions`: filesystem path of module containing languages object
+  #
+  # #### Result
+  #
+  # Language object corresponding to source file type of file at `filePath`
   getLanguage: (filePath, languageDefinitions = './languages') ->
     unless @_languageDetectionCache?
       @_languageDetectionCache = []
