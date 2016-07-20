@@ -4,6 +4,7 @@ target: contributor/index.html.md
 ---
 includes:
   - contributor/internals/bin/groc.md
+  - contributor/index.md
   - contributor/lib/cli.md
   - contributor/lib/project.md
   - contributor/lib/project/constructor.md

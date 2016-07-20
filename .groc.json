@@ -1,6 +1,7 @@
 {
     "glob": [
         "bin/groc",
+        "**/*.js",
         "**/*.md",
         "**/*.coffee",
         ".groc.json",
