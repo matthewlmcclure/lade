@@ -3,7 +3,7 @@ target: contributor/index.html.md
 ---
 ---
 includes:
-  - contributor/internals/bin/groc.md
+  - contributor/internals/bin/lade.md
   - contributor/index.md
   - contributor/lib/cli.md
   - contributor/lib/project.md
@@ -36,4 +36,4 @@ includes:
   - contributor/lib/utils/preprocessComments.md
 
 ---
-# MlmGroc Contributor Guide
+# Lade Contributor Guide

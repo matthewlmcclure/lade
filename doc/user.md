@@ -18,41 +18,41 @@ includes:
   - user/languages.md
 
 ---
-# MlmGroc User Guide
+# Lade User Guide
 
-## Installing groc
+## Installing Lade
 
 The following is aspirational as of 2016-07-02. In the meantime, get
-MlmGroc from GitHub.
+Lade from GitHub.
 
-MlmGroc depends on [Node.js](http://nodejs.org/).  Once you have Node,
+Lade depends on [Node.js](http://nodejs.org/).  Once you have Node,
 assuming that your Node came with [npm](http://npmjs.org/), you can
-install MlmGroc using:
+install Lade using:
 
 ```bash
-$ npm install -g mlmgroc
+$ npm install -g lade
 ```
 
-For those new to npm, `-g` indicates that you want MlmGroc installed
+For those new to npm, `-g` indicates that you want Lade installed
 as globally in your environment.  You may need to prefix the command
 with sudo, depending on how you installed node.
 
-## Using groc
+## Using Lade
 
-To extract documentation, just point groc to source files that you
+To extract documentation, just point lade to source files that you
 want docs for:
 
 ```bash
-$ groc *.coffee
+$ lade *.coffee
 ```
 
-MlmGroc will also handle extended globbing syntax if you quote
+Lade will also handle extended globbing syntax if you quote
 arguments:
 
 ```bash
-$ groc "lib/**/*.coffee" README.md
+$ lade "lib/**/*.coffee" README.md
 ```
 
-By default, groc will put extracted documentation in a `doc` subfolder
-of your project.
+By default, `lade` will put extracted documentation in a `doc`
+subfolder of your project.
 

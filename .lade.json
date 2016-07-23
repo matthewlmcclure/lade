@@ -1,10 +1,10 @@
 {
     "glob": [
-        "bin/groc",
+        "bin/lade",
         "**/*.js",
         "**/*.md",
         "**/*.coffee",
-        ".groc.json",
+        ".lade.json",
         "package.json"
     ],
     "except": [

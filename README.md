@@ -1,13 +1,13 @@
 ---
 target: index.html.md
 ---
-# mlmgroc
+# Lade
 
-MlmGroc extracts documentation from source code.
+Lade extracts documentation from source code.
 
 ## Goals
 
-MlmGroc's goal is extraction of documentation from any programming
+Lade's goal is extraction of documentation from any programming
 language, for any audience.
 
 It should facilitate maintaining documentation close to source code
@@ -28,12 +28,12 @@ Refer to the [contributor guide](./contributor/).
 
 ## Maintainers
 
-MlmGroc is maintained by [Matt McClure](http://matthewlmcclure.com/).
+Lade is maintained by [Matt McClure](http://matthewlmcclure.com/).
 
 ## History
 
-MlmGroc is derived from [Ian MacLeod](https://github.com/nevir)'s
-[Groc](https://github.com/nevir/groc). MlmGroc is the result of taking
+Lade is derived from [Ian MacLeod](https://github.com/nevir)'s
+[Groc](https://github.com/nevir/groc). Lade is the result of taking
 groc apart and putting it back together again. What remains is the
 essence of documentation extraction, without groc's rendering and
 publishing capabilities.
@@ -46,10 +46,7 @@ dirty principles of docco).
 
 ## Known Issues
 
-* MlmGroc is a temporary name.
-* I'm still taking groc apart, and there will be more work ahead to
-  put it back together.
-* MlmGroc's own documentation produces many small partial Markdown
+* Lade's own documentation produces many small partial Markdown
   files. It seems more desirable that it could assemble fragments from
   many places in the source code into a given Markdown file so that
   the resulting extracted documentation could be used easily without

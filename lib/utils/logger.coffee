@@ -1,4 +1,4 @@
-# # groc.Logger
+# # lade.Logger
 
 colors = require 'colors'
 util = require 'util'
@@ -10,7 +10,7 @@ util = require 'util'
 #
 # `Logger` provides logging capabilities
 #
-# Groc has pretty simple logging needs, and its contributors are
+# Lade has pretty simple logging needs, and its contributors are
 # unaware of a reasonable off-the-shelf solution that fits them
 # without being too overbearing.
 #
@@ -20,7 +20,7 @@ module.exports = class Logger
   # ---
   # ### `LEVELS`
   #
-  # Groc uses the following output levels, and corresponding log line
+  # Lade uses the following output levels, and corresponding log line
   # prefixes, colors, and mapping to `console.log` semantics.
   #
   # Level | Prefix | Color | Console

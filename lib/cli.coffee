@@ -25,7 +25,7 @@ Utils        = require './utils'
 # })
 # ```
 #
-# Invoke Groc with the given command line arguments
+# Invoke Lade with the given command line arguments
 #
 # ### Parameters
 #
@@ -54,14 +54,14 @@ module.exports = CLI = (inputArgs, callback) ->
     # a default value too long
     .wrap(80)
     .usage("""
-    Usage: groc [options] "lib/**/*.coffee" doc/*.md
+    Usage: lade [options] "lib/**/*.coffee" doc/*.md
 
-    groc accepts lists of files and (quoted) glob expressions to match
+    lade accepts lists of files and (quoted) glob expressions to match
     the files you would like to generate documentation for.  Any
     unnamed options are shorthand for --glob arg.
 
     You can also specify arguments via a configuration file in the
-    current directory named .groc.json.  It should contain a mapping
+    current directory named .lade.json.  It should contain a mapping
     between option names and their values.  For example:
 
       TODO: ...
@@ -141,17 +141,17 @@ module.exports = CLI = (inputArgs, callback) ->
     # ---
     # target: includes/user/cli/_version.md
     # ---
-    # `--version`: Shows you the current version of groc
+    # `--version`: Shows you the current version of lade
     version:
-      describe: "Shows you the current version of groc (#{PACKAGE_INFO.version})"
+      describe: "Shows you the current version of lade (#{PACKAGE_INFO.version})"
       alias:    'v'
 
     # ---
     # target: includes/user/cli/_verbose.md
     # ---
-    # `--verbose`: Output the inner workings of groc to help diagnose issues.
+    # `--verbose`: Output the inner workings of lade to help diagnose issues.
     verbose:
-      describe: "Output the inner workings of groc to help diagnose issues."
+      describe: "Output the inner workings of lade to help diagnose issues."
 
     # ---
     # target: includes/user/cli/_very_verbose.md
@@ -163,13 +163,13 @@ module.exports = CLI = (inputArgs, callback) ->
   # ---
   # target: includes/user/_configuration.md
   # ---
-  # ## Configuring groc
+  # ## Configuring Lade
   #
-  # MlmGroc can configure itself from a file as an alternative to using
+  # Lade can configure itself from a file as an alternative to using
   # command-line arguments.
   #
-  # Create a `.groc.json` file in your project root, where each key maps
-  # to an argument you would pass to the `groc` command.  File names and
+  # Create a `.lade.json` file in your project root, where each key maps
+  # to an argument you would pass to the `lade` command.  File names and
   # globs are defined as an array with the key `glob`.  For example:
   #
   # ```json
@@ -177,7 +177,7 @@ module.exports = CLI = (inputArgs, callback) ->
   #     "glob": [
   #         "**/*.md",
   #         "**/*.coffee",
-  #         ".groc.json",
+  #         ".lade.json",
   #         "package.json"
   #     ],
   #     "except": [
@@ -187,16 +187,16 @@ module.exports = CLI = (inputArgs, callback) ->
   # }
   # ```
   #
-  # If you invoke `groc` without any arguments, it will use your
+  # If you invoke `lade` without any arguments, it will use your
   # pre-defined configuration.
-  projectConfigPath = path.resolve '.groc.json'
+  projectConfigPath = path.resolve '.lade.json'
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
   catch err
     unless err.code == 'ENOENT' || err.code == 'EBADF'
       console.log opts.help()
       console.log
-      Logger.error "Failed to load .groc.json: %s", err.message
+      Logger.error "Failed to load .lade.json: %s", err.message
 
       return callback err
 

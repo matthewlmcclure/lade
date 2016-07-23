@@ -3,7 +3,7 @@
 # ---
 # ## Source File Types
 #
-# MlmGroc can extract documentation from the following source file types:
+# Lade can extract documentation from the following source file types:
 #
 # * C
 # * C++
@@ -185,7 +185,7 @@ module.exports = LANGUAGES =
     multiLineComment:  ['/*', '*', '*/']
 
   JavaScript:
-    nameMatchers:      ['.js', /^groc$/]
+    nameMatchers:      ['.js', /^lade$/]
     multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
 

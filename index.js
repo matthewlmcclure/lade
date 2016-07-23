@@ -3,7 +3,7 @@
 // ---
 // ## Module Exports
 //
-// The `groc` module exports the `CLI` interface.
+// The `lade` module exports the `CLI` interface.
 
 // Register the CoffeeScript compiler
 require('coffee-script/register');
