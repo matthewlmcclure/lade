@@ -60,6 +60,8 @@ Suppose you have a `hello.coffee` file with the following contents.
 print "Hello, World!"
 ```
 
+<div></div>
+
 You can use Lade to extract the documentation to a `hello.md`
 file. The `hello.md` file will contain the following.
 
@@ -73,6 +75,8 @@ syntax of a programming language for a working program.
 
 This implementation uses Coffescript.
 ```
+
+<div></div>
 
 You can also document for different audiences in the same source
 file. For example, if the `hello.coffee` file contained the following.
@@ -103,6 +107,8 @@ file. For example, if the `hello.coffee` file contained the following.
 console.log "Hello, World!"
 ```
 
+<div></div>
+
 Then Lade would produce two separate documentation files. The
 `hello_for_users.md` file would contain the following.
 
@@ -116,6 +122,8 @@ syntax of a programming language for a working program.
 
 Run this "Hello, World!" using the command `coffee hello.coffee`.
 ```
+
+<div></div>
 
 And the `hello_for_programmers.md` file would contain the following.
 
@@ -138,12 +146,16 @@ want docs for:
 $ lade *.coffee
 ```
 
+<div></div>
+
 Lade will also handle extended globbing syntax if you quote
 arguments:
 
 ```bash
 $ lade "lib/**/*.coffee" README.md
 ```
+
+<div></div>
 
 By default, `lade` will put extracted documentation in a `doc`
 subfolder of your project.
