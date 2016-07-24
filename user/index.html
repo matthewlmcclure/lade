@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Lade User Guide</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all_nosearch.js"></script>
+  </head>
+
+  <body class="user user_index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="../images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="../images/logo.png" />
+        <div class="lang-selector">
+        </div>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="lade-user-guide">Lade User Guide</h1>
+
+<h2 id="installing-lade">Installing Lade</h2>
+
+<p>Lade depends on <a href="http://nodejs.org/">Node.js</a>. Assuming you have Node,
+and your Node came with <a href="http://npmjs.org/">npm</a>, you can install Lade
+using:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>npm install -g lade
+</code></pre>
+
+<p>For those new to npm, <code class="prettyprint">-g</code> indicates that you want Lade installed
+as globally in your environment.  You may need to prefix the command
+with sudo, depending on how you installed node.</p>
+
+<h2 id="documenting-programs">Documenting Programs</h2>
+
+<p>Lade extracts comments from source code, and writes the comments to a
+given target file.</p>
+
+<p>An example follows.</p>
+
+<p>Suppose you have a <code class="prettyprint">hello.coffee</code> file with the following contents.</p>
+<pre class="highlight coffeescript"><code><span class="c1"># ---
+# target: hello.md
+# ---
+# # Hello, World!
+#
+# A "Hello, World!" program is a computer program that outputs or
+# displays "Hello, World!" to the user. Being a very simple program in
+# most programming languages, it is often used to illustrate the basic
+# syntax of a programming language for a working program.
+#
+# This implementation uses Coffescript.
+</span><span class="nx">print</span> <span class="s">"Hello, World!"</span>
+</code></pre>
+
+<div></div>
+
+<p>You can use Lade to extract the documentation to a <code class="prettyprint">hello.md</code>
+file. The <code class="prettyprint">hello.md</code> file will contain the following.</p>
+<pre class="highlight markdown"><code><span class="gh"># Hello, World!</span>
+
+A "Hello, World!" program is a computer program that outputs or
+displays "Hello, World!" to the user. Being a very simple program in
+most programming languages, it is often used to illustrate the basic
+syntax of a programming language for a working program.
+
+This implementation uses Coffescript.
+</code></pre>
+
+<div></div>
+
+<p>You can also document for different audiences in the same source
+file. For example, if the <code class="prettyprint">hello.coffee</code> file contained the following.</p>
+<pre class="highlight coffeescript"><code><span class="c1"># ---
+# target: hello_for_users.md
+# ---
+# # Hello, World!
+#
+# A "Hello, World!" program is a computer program that outputs or
+# displays "Hello, World!" to the user. Being a very simple program in
+# most programming languages, it is often used to illustrate the basic
+# syntax of a programming language for a working program.
+#
+# Run this "Hello, World!" using the command `coffee hello.coffee`.
+</span>
+<span class="c1"># ---
+# target: hello_for_programmers.md
+# ---
+# # Hello, World!
+#
+# The implementation of "Hello, World!" in Coffeescript is very
+# simple. It consists of a single file containing a single statement.
+#
+# Refer to the `hello.coffee` file for the source of this
+# documentation and the program itself.
+</span><span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Hello, World!"</span>
+</code></pre>
+
+<div></div>
+
+<p>Then Lade would produce two separate documentation files. The
+<code class="prettyprint">hello_for_users.md</code> file would contain the following.</p>
+<pre class="highlight markdown"><code><span class="gh"># Hello, World!</span>
+
+A "Hello, World!" program is a computer program that outputs or
+displays "Hello, World!" to the user. Being a very simple program in
+most programming languages, it is often used to illustrate the basic
+syntax of a programming language for a working program.
+
+Run this "Hello, World!" using the command <span class="sb">`coffee hello.coffee`</span>.
+</code></pre>
+
+<div></div>
+
+<p>And the <code class="prettyprint">hello_for_programmers.md</code> file would contain the following.</p>
+<pre class="highlight markdown"><code><span class="gh"># Hello, World!</span>
+
+The implementation of "Hello, World!" in Coffeescript is very
+simple. It consists of a single file containing a single statement.
+
+Refer to the <span class="sb">`hello.coffee`</span> file for the source of this
+documentation and the program itself.
+</code></pre>
+
+<h2 id="using-lade">Using Lade</h2>
+
+<p>To extract documentation, just point <code class="prettyprint">lade</code> to source files that you
+want docs for:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>lade <span class="k">*</span>.coffee
+</code></pre>
+
+<div></div>
+
+<p>Lade will also handle extended globbing syntax if you quote
+arguments:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>lade <span class="s2">"lib/**/*.coffee"</span> README.md
+</code></pre>
+
+<div></div>
+
+<p>By default, <code class="prettyprint">lade</code> will put extracted documentation in a <code class="prettyprint">doc</code>
+subfolder of your project.</p>
+
+          <h2 id="configuring-lade">Configuring Lade</h2>
+
+<p>Lade can configure itself from a file as an alternative to using
+command-line arguments.</p>
+
+<p>Create a <code class="prettyprint">.lade.json</code> file in your project root, where each key maps
+to an argument you would pass to the <code class="prettyprint">lade</code> command.  File names and
+globs are defined as an array with the key <code class="prettyprint">glob</code>.  For example:</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"glob"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"**/*.md"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"**/*.coffee"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">".lade.json"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"package.json"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"except"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"node_modules/**"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./doc"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>If you invoke <code class="prettyprint">lade</code> without any arguments, it will use your
+pre-defined configuration.</p>
+
+          <h2 id="command-line-usage">Command Line Usage</h2>
+
+          <p><code class="prettyprint">--help</code>: Command line usage</p>
+
+          <p><code class="prettyprint">--glob</code>: A file path or globbing expression that matches files
+to generate documentation for.</p>
+
+          <p><code class="prettyprint">--except</code>: Glob expression of files to exclude.  Can be
+specified multiple times.</p>
+
+          <p><code class="prettyprint">--out</code>: The directory to place generated documentation,
+relative to the project root [./doc]</p>
+
+          <p><code class="prettyprint">--root</code>: The root directory of the project.</p>
+
+          <p><code class="prettyprint">--languages</code>: Path to language definition file.</p>
+
+          <p><code class="prettyprint">--silent</code>: Output errors only.</p>
+
+          <p><code class="prettyprint">--version</code>: Shows you the current version of lade</p>
+
+          <p><code class="prettyprint">--verbose</code>: Output the inner workings of lade to help diagnose issues.</p>
+
+          <p><code class="prettyprint">--very-verbose</code>: Hey, you asked for it.</p>
+
+          <h2 id="source-file-types">Source File Types</h2>
+
+<p>Lade can extract documentation from the following source file types:</p>
+
+<ul>
+<li>C</li>
+<li>C++</li>
+<li>CSS</li>
+<li>CSharp</li>
+<li>Clojure</li>
+<li>CoffeeScript</li>
+<li>Go</li>
+<li>HTML</li>
+<li>Handlebars</li>
+<li>Haskell</li>
+<li>JSON</li>
+<li>JSP</li>
+<li>Jade</li>
+<li>Jake</li>
+<li>Java</li>
+<li>JavaScript</li>
+<li>LESS</li>
+<li>LaTeX</li>
+<li>LiveScript</li>
+<li>Lua</li>
+<li>Make</li>
+<li>Markdown</li>
+<li>Mustache</li>
+<li>Objective-C</li>
+<li>PHP</li>
+<li>Perl</li>
+<li>Puppet</li>
+<li>Python</li>
+<li>Ruby</li>
+<li>SCSS</li>
+<li>SQL</li>
+<li>Sass</li>
+<li>Shell</li>
+<li>Swift</li>
+<li>TypeScript</li>
+<li>YAML</li>
+</ul>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

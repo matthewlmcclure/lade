@@ -1,0 +1,735 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Lade Contributor Guide</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all_nosearch.js"></script>
+  </head>
+
+  <body class="contributor contributor_index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="../images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="../images/logo.png" />
+        <div class="lang-selector">
+        </div>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="lade-contributor-guide">Lade Contributor Guide</h1>
+
+          <h2 id="lade"><code class="prettyprint">lade</code></h2>
+
+<p><code class="prettyprint">bin/lade</code> is the main entry point. It delegates to <code class="prettyprint">lib/cli.coffee</code>.</p>
+
+          <h2 id="makefile">Makefile</h2>
+
+<p>The rules in the file <code class="prettyprint">Makefile</code> facilitate extracting Lade&rsquo;s
+documentation and providing it as input to <a href="https://github.com/lord/slate">Slate</a>.</p>
+
+<p>Assuming you have a copy of Slate in a directory <code class="prettyprint">~/code/slate</code>, you
+can use the following Make command.</p>
+<pre class="highlight shell"><code>make slateinput <span class="nv">SLATE</span><span class="o">=</span>~/code/slate
+</code></pre>
+
+          <h2 id="module-exports">Module Exports</h2>
+
+<p>The <code class="prettyprint">lade</code> module exports the <code class="prettyprint">CLI</code> interface.</p>
+
+          <h2 id="cli"><code class="prettyprint">CLI</code></h2>
+<pre class="highlight javascript"><code><span class="nx">CLI</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+
+<p>Invoke Lade with the given command line arguments</p>
+
+<h3 id="parameters">Parameters</h3>
+
+<ul>
+<li><code class="prettyprint">inputArgs</code>: array of command line arguments</li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h3 id="result">Result</h3>
+
+<p>The result of <code class="prettyprint">project.generate</code></p>
+
+          <h2 id="project"><code class="prettyprint">Project</code></h2>
+
+<p>A <code class="prettyprint">Project</code> represents a container that refers to input source files
+and output documentation files.</p>
+
+          <h3 id="constructor"><code class="prettyprint">constructor</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">project</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Project</span> <span class="nx">root</span><span class="p">,</span> <span class="nx">out</span>
+</code></pre>
+
+<p>Create a new <code class="prettyprint">Project</code> instance.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">root</code>: filesystem path of directory containing input source
+      files</li>
+<li><code class="prettyprint">outPath</code>: filesystem path of destination directory for output
+         documentation files</li>
+<li><code class="prettyprint">minLogLevel</code>: minimum <code class="prettyprint">Logger</code> level to emit</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>A <code class="prettyprint">Project</code> instance</p>
+
+          <h3 id="generate"><code class="prettyprint">generate</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">generate</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="p">...</span>
+</code></pre>
+
+<p>Extract output documentation from input source files</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h2 id="renderer"><code class="prettyprint">Renderer</code></h2>
+
+<p>A <code class="prettyprint">Renderer</code> handles rendering extracted documentation to
+destination files.</p>
+
+          <h3 id="constructor"><code class="prettyprint">constructor</code></h3>
+<pre class="highlight coffeescript"><code><span class="k">new</span> <span class="nx">Renderer</span> <span class="nx">project</span>
+</code></pre>
+
+<p>Create a new <code class="prettyprint">Renderer</code> instance.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">project</code>: a <code class="prettyprint">Project</code></li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>A <code class="prettyprint">Renderer</code> instance</p>
+
+          <h3 id="renderfile"><code class="prettyprint">renderFile</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">done</span>
+</code></pre>
+
+<p>Render given file content.</p>
+
+<p><code class="prettyprint">renderFile</code> expects that <code class="prettyprint">data</code> contains output destinations for
+its corresponding content.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">data</code>: source file content</li>
+<li><code class="prettyprint">fileInfo</code>: source file metadata</li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h3 id="renderdocfile"><code class="prettyprint">renderDocFile</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">renderDocFile</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">callback</span>
+</code></pre>
+
+<p>Render given segments of documentation and code.</p>
+
+<p><code class="prettyprint">renderDocFile</code> expects that <code class="prettyprint">segments</code> contains output
+destinations for its corresponding content.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">segments</code>: array of <code class="prettyprint">Segment</code> elements</li>
+<li><code class="prettyprint">fileInfo</code>: source file metadata</li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h3 id="rendersegment"><code class="prettyprint">renderSegment</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">renderSegment</span> <span class="nx">segment</span><span class="p">,</span> <span class="nx">callback</span>
+</code></pre>
+
+<p>Render given segment of documentation and code.</p>
+
+<p><code class="prettyprint">renderSegment</code> expects that <code class="prettyprint">segment.targetPath</code> contains an
+output destination for its corresponding content.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">segment</code>: a <code class="prettyprint">Segment</code></li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h3 id="writedocfile"><code class="prettyprint">writeDocFile</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">writeDocFile</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">callback</span>
+</code></pre>
+
+<p>Write given documentation <code class="prettyprint">data</code> to <code class="prettyprint">docPath</code>.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">docPath</code>: filesystem path to output file</li>
+<li><code class="prettyprint">data</code>: data to write to output file</li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h3 id="rendercompleted"><code class="prettyprint">renderCompleted</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">renderCompleted</span> <span class="nx">callback</span>
+</code></pre>
+
+<p>Indicate rendering completed.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+          <h2 id="source-file-types">Source File Types</h2>
+
+<p>Refer to the user documentation for a list of supported source file
+types. Contributors can configure new source file types in
+<code class="prettyprint">lib/languages.coffee</code>.</p>
+
+<p>Each configured source file type has the following attributes:</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>nameMatchers</td>
+<td>list of strings</td>
+<td>File name extensions</td>
+<td>required</td>
+</tr>
+<tr>
+<td>singleLineComment</td>
+<td>list of strings</td>
+<td>List of character sequences that introduce a single line comment</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>multiLineComment</td>
+<td>list of 3 strings</td>
+<td>3-tuple of block comment starting character sequence, intra-block-comment line prefix, ending sequence</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>commentsOnly</td>
+<td>boolean</td>
+<td>Indicates if the source file type contains only comments and no source code</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>codeOnly</td>
+<td>boolean</td>
+<td>Indicates if the source file type contains only source code and no comments</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>strictMultiLineEnd</td>
+<td>boolean</td>
+<td>Indicates if block comments of differing syntaxes can be nested</td>
+<td>optional</td>
+</tr>
+</tbody></table>
+
+          <h2 id="clihelpers"><code class="prettyprint">CLIHelpers</code></h2>
+
+<p>Utilities for handling command line invocation</p>
+
+          <h3 id="configureoptimist"><code class="prettyprint">configureOptimist</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">configureOptimist</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span><span class="p">,</span> <span class="nx">projectConfig</span>
+</code></pre>
+
+<p>Configure <a href="https://github.com/substack/node-optimist">Optimist</a> to provide two layers of defaults:</p>
+
+<ol>
+<li>from the source code</li>
+<li>from the user&rsquo;s configuration file</li>
+</ol>
+
+<p>And make <code class="prettyprint">--help</code> show the resulting default values, regardless of tier.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">opts</code>: command line options object resulting from Optimist</li>
+<li><code class="prettyprint">config</code>: options configuration with source code defaults</li>
+<li><code class="prettyprint">extraDefaults</code>: options configuration with user&rsquo;s configuration defaults</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>Command line options object resulting from combining:</p>
+
+<ol>
+<li>user command line options</li>
+<li>user defaults</li>
+<li>source code defaults</li>
+</ol>
+
+          <h3 id="extractargv"><code class="prettyprint">extractArgv</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">extractArgv</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span>
+</code></pre>
+
+<p>Handle generated values specially, as follows.</p>
+
+<ol>
+<li>Ensure list-style option values are always arrays, instead of
+being single values for one-element lists</li>
+<li>Resolve filesystem paths</li>
+</ol>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">opts</code>: command line options object resulting from Optimist</li>
+<li><code class="prettyprint">config</code>: options configuration</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p><code class="prettyprint">opts.argv</code> with the preceding transformations applied</p>
+
+          <h2 id="logger"><code class="prettyprint">Logger</code></h2>
+
+<p><code class="prettyprint">Logger</code> provides logging capabilities</p>
+
+<p>Lade has pretty simple logging needs, and its contributors are
+unaware of a reasonable off-the-shelf solution that fits them
+without being too overbearing.</p>
+
+          <h3 id="levels"><code class="prettyprint">LEVELS</code></h3>
+
+<p>Lade uses the following output levels, and corresponding log line
+prefixes, colors, and mapping to <code class="prettyprint">console.log</code> semantics.</p>
+
+<table><thead>
+<tr>
+<th>Level</th>
+<th>Prefix</th>
+<th>Color</th>
+<th>Console</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TRACE</td>
+<td>∴</td>
+<td>grey</td>
+<td><code class="prettyprint">log</code></td>
+</tr>
+<tr>
+<td>DEBUG</td>
+<td>‡</td>
+<td>grey</td>
+<td><code class="prettyprint">log</code></td>
+</tr>
+<tr>
+<td>INFO</td>
+<td></td>
+<td>black</td>
+<td><code class="prettyprint">log</code></td>
+</tr>
+<tr>
+<td>PASS</td>
+<td>✓</td>
+<td>green</td>
+<td><code class="prettyprint">log</code></td>
+</tr>
+<tr>
+<td>WARN</td>
+<td>»</td>
+<td>yellow</td>
+<td><code class="prettyprint">error</code></td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>!</td>
+<td>red</td>
+<td><code class="prettyprint">error</code></td>
+</tr>
+</tbody></table>
+
+          <h3 id="constructor"><code class="prettyprint">constructor</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Logger</span> <span class="nx">minLogLevel</span>
+</code></pre>
+
+<p>Create a new Logger object</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">minLevel</code>: minimum log level to emit</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>A Logger object</p>
+
+          <h3 id="trace"><code class="prettyprint">trace</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">trace</span> <span class="s">'A detail of interest to a developer relating to %s happened'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<p>Log given message at <code class="prettyprint">TRACE</code> level</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+<h3 id="debug"><code class="prettyprint">debug</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">debug</span> <span class="s">'Something of interest to a developer relating to %s happened'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<p>Log given message at <code class="prettyprint">DEBUG</code> level</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+<h3 id="info"><code class="prettyprint">info</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">info</span> <span class="s">'A detail of interest to a user relating to %s happened'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+<h3 id="pass"><code class="prettyprint">pass</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">pass</span> <span class="s">'Something of interest to a user relating to %s happened'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+<h3 id="warn"><code class="prettyprint">warn</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">warn</span> <span class="s">'Something abnormal relating to %s happened'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+<h3 id="error"><code class="prettyprint">error</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">error</span> <span class="s">'Something failed relating to %s'</span><span class="p">,</span> <span class="nx">aThing</span>
+</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+          <h3 id="emit"><code class="prettyprint">emit</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">emit</span> <span class="nx">level</span><span class="p">,</span> <span class="nx">args</span><span class="p">...</span>
+</code></pre>
+
+<p>Emit a log message at the given <code class="prettyprint">level</code></p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">levelName</code>: level at which to emit message given by <code class="prettyprint">args</code></li>
+<li><code class="prettyprint">args</code>: variable length argument list: a format string and
+corresponding placeholder values</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>The string emitted to the corresponding stream</p>
+
+          <h3 id="simple-logging">Simple Logging</h3>
+<pre class="highlight coffeescript"><code><span class="nx">Logger</span> <span class="o">=</span> <span class="nx">require</span> <span class="s">'./utils/logger'</span>
+<span class="nx">Logger</span><span class="p">.</span><span class="na">info</span> <span class="s">'Logging can be this simple'</span>
+</code></pre>
+
+<p><code class="prettyprint">Logger</code> provides functions that let a caller log at a given level
+without creating a new <code class="prettyprint">Logger</code> object.</p>
+
+          <h2 id="utils"><code class="prettyprint">Utils</code></h2>
+
+<p>Utility functions</p>
+
+          <h3 id="regexpescapepattern"><code class="prettyprint">regexpEscapePattern</code></h3>
+
+<p>A regular expression matching a class of regular expression
+metacharacters</p>
+
+          <h3 id="regexpescapereplace"><code class="prettyprint">regexpEscapeReplace</code></h3>
+
+<p>A replacement that escapes a matched character with <code class="prettyprint">\</code></p>
+
+          <h3 id="regexpescape"><code class="prettyprint">regexpEscape</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">regexpEscape</span> <span class="s">"a string"</span>
+<span class="nx">regexpEscape</span> <span class="p">[</span><span class="s">"an"</span><span class="p">,</span> <span class="s">"array"</span><span class="p">,</span> <span class="s">"of"</span><span class="p">,</span> <span class="s">"strings"</span><span class="p">]</span>
+</code></pre>
+
+<p>Escape regular expression characters in a String, an Array of
+Strings or any Object having a proper toString-method</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">obj</code>: a string, array of strings, or object having a <code class="prettyprint">toString</code>
+     method</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>A transformed <code class="prettyprint">obj</code>, in which characters in <code class="prettyprint">regexpEscapePattern</code>
+have been escaped according to <code class="prettyprint">regexpEscapeReplace</code>.</p>
+
+<h4 id="credit">Credit</h4>
+
+<p>Adapted from the solution at
+<a href="http://blog.simonwillison.net/post/57956816139/escape">http://blog.simonwillison.net/post/57956816139/escape</a></p>
+
+          <h3 id="getlanguage"><code class="prettyprint">getLanguage</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">getLanguage</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">languages</span>
+</code></pre>
+
+<p>Detect the language that a given file is written in</p>
+
+<p>The language is also annotated with a name property, matching the language&rsquo;s
+key in LANGUAGES.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">filePath</code>: filesystem path of file containing language to detect</li>
+<li><code class="prettyprint">languageDefinitions</code>: filesystem path of module containing languages object</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>Language object corresponding to source file type of file at <code class="prettyprint">filePath</code></p>
+
+          <h3 id="splitsource"><code class="prettyprint">splitSource</code></h3>
+<pre class="highlight coffeescript"><code><span class="nx">segments</span> <span class="o">=</span> <span class="nx">Utils</span><span class="p">.</span><span class="na">splitSource</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">language</span>
+</code></pre>
+
+<p>Split <code class="prettyprint">data</code> in a given <code class="prettyprint">language</code> into an array of <code class="prettyprint">Segment</code>
+objects</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">data</code>: source text as a multi-line string</li>
+<li><code class="prettyprint">language</code>: <code class="prettyprint">Language</code> object corresponding to the source file type of <code class="prettyprint">data</code></li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>Array of <code class="prettyprint">Segment</code> objects, each containing source code or comment
+lines</p>
+
+          <h3 id="segment"><code class="prettyprint">Segment</code></h3>
+
+<p>A container to hold code lines and corresponding comment lines</p>
+
+<h4 id="attributes">Attributes</h4>
+
+<ul>
+<li><code class="prettyprint">code</code>: array of source code lines</li>
+<li><code class="prettyprint">comments</code>: array of comment lines</li>
+</ul>
+
+          <h3 id="preprocesscomments"><code class="prettyprint">preprocessComments</code></h3>
+
+<p>Preprocess comment <code class="prettyprint">Segment</code> objects.</p>
+
+<p>Extract a target path from comment front matter. Assemble the
+array of comment lines into a multi-line comment text string.</p>
+
+<p>Input <code class="prettyprint">Segment</code> objects are modified by adding <code class="prettyprint">targetPath</code> and
+<code class="prettyprint">plainComments</code> attributes.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+<li><code class="prettyprint">segments</code>: array of <code class="prettyprint">Segment</code> objects</li>
+<li><code class="prettyprint">project</code>: <code class="prettyprint">Project</code> to use</li>
+<li><code class="prettyprint">callback</code>: function to call on completion</li>
+</ul>
+
+<h4 id="result">Result</h4>
+
+<p>None</p>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

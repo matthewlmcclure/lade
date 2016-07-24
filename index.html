@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Lade: Language-agnostic Documentation Extractor</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all_nosearch.js"></script>
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+        </div>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="lade">Lade</h1>
+
+<p>Lade is a language-agnostic documentation extractor.</p>
+
+<p>It extracts documentation from source code in any programming
+language.</p>
+
+<p>It facilitates:</p>
+
+<ul>
+<li>maintaining documentation close to the relevant source code</li>
+<li>documentation-driven development &ndash; growing implementation from
+documentation, and vice-versa</li>
+<li>producing different sets of documentation for different audiences &ndash;
+users concerned with a program&rsquo;s UIs, developers concerned with its
+APIs, and contributors concerned with its internals.</li>
+</ul>
+
+<h2 id="user-guide">User Guide</h2>
+
+<p>Refer to the <a href="./user/">user guide</a>.</p>
+
+<h2 id="contributor-guide">Contributor Guide</h2>
+
+<p>Refer to the <a href="./contributor/">contributor guide</a>.</p>
+
+<h2 id="maintainers">Maintainers</h2>
+
+<p>Lade is maintained by <a href="http://matthewlmcclure.com/">Matt McClure</a>.</p>
+
+<h2 id="history">History</h2>
+
+<p>Lade is derived from <a href="https://github.com/nevir">Ian MacLeod</a>&rsquo;s
+<a href="https://github.com/nevir/groc">Groc</a>. Lade is the result of taking
+groc apart and putting it back together again. What remains is the
+essence of documentation extraction, without groc&rsquo;s rendering and
+publishing capabilities.</p>
+
+<p>Groc was heavily influenced by
+<a href="https://github.com/jashkenas">Jeremy Ashkenas</a>&rsquo;
+<a href="http://jashkenas.github.com/docco/">docco</a>. It was an attempt to
+further enhance the idea (thus, groc couldn&rsquo;t tout the same quick &lsquo;n
+dirty principles of docco).</p>
+
+<h2 id="known-issues">Known Issues</h2>
+
+<ul>
+<li>Lade&rsquo;s own documentation produces many small partial Markdown
+files. It seems more desirable that it could assemble fragments from
+many places in the source code into a given Markdown file so that
+the resulting extracted documentation could be used easily without
+rendering it with Slate.</li>
+</ul>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
