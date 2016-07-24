@@ -7,20 +7,19 @@ title: "Lade: Language-agnostic Documentation Extractor"
 ---
 # Lade
 
-Lade extracts documentation from source code.
+Lade is a language-agnostic documentation extractor.
 
-## Goals
+It extracts documentation from source code in any programming
+language.
 
-Lade's goal is extraction of documentation from any programming
-language, for any audience.
+It facilitates:
 
-It should facilitate maintaining documentation close to source code
-that delivers on documentation's claims. It should facilitate
-documentation-driven development -- growing implementation from
-documentation, and vice-versa. And it should facilitate producing
-different sets of documentation for different audiences -- users
-concerned with a program's UIs, developers concerned with its APIs,
-and contributors concerned with its internals.
+* maintaining documentation close to the relevant source code
+* documentation-driven development -- growing implementation from
+documentation, and vice-versa
+* producing different sets of documentation for different audiences --
+users concerned with a program's UIs, developers concerned with its
+APIs, and contributors concerned with its internals.
 
 ## User Guide
 
