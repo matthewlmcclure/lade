@@ -2,6 +2,8 @@
 target: contributor/index.html.md
 ---
 ---
+title: Lade Contributor Guide
+
 includes:
   - contributor/internals/bin/lade.md
   - contributor/makefile.md

@@ -1,6 +1,10 @@
 ---
 target: index.html.md
 ---
+---
+title: "Lade: Language-agnostic Documentation Extractor"
+
+---
 # Lade
 
 Lade extracts documentation from source code.

@@ -2,6 +2,8 @@
 target: user/index.html.md
 ---
 ---
+title: Lade User Guide
+
 includes:
   - user/configuration.md
   - user/cli/heading.md
