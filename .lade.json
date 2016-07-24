@@ -1,10 +1,11 @@
 {
     "glob": [
-        "bin/lade",
+        "**/*.coffee",
         "**/*.js",
         "**/*.md",
-        "**/*.coffee",
         ".lade.json",
+        "Makefile",
+        "bin/lade",
         "package.json"
     ],
     "except": [
