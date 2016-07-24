@@ -29,7 +29,7 @@ and your Node came with [npm](http://npmjs.org/), you can install Lade
 using:
 
 ```bash
-$ npm install -g lade
+$ npm install -g Lade
 ```
 
 For those new to npm, `-g` indicates that you want Lade installed
