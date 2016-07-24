@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "coffee-script": "^1.6.3",
+    "colors": "^0.6.2",
     "fs-tools": "^0.2.10",
     "glob": "^3.2.7",
     "optimist": "^0.6.0",
