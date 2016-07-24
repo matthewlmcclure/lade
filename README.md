@@ -49,6 +49,8 @@ dirty principles of docco).
 
 ## Known Issues
 
+* Relative links in `README.md` only work in Slate-rendered
+  documentation. Refer to <http://matthewlmcclure.github.io/lade>.
 * Lade's own documentation produces many small partial Markdown
   files. It seems more desirable that it could assemble fragments from
   many places in the source code into a given Markdown file so that
